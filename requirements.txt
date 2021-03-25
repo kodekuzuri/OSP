@@ -1,5 +1,6 @@
 flask
 gunicorn
-gmaps
-gmplot
 statistics
+numpy
+pymongo
+re
