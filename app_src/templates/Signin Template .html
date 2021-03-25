@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Online Sales Portal</title>
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"
+		integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+	<link href="{{ url_for('static', filename='css/signin.css') }}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container d-flex p-3 mx-auto flex-column">
+		<main>
+			<form class="form-signin">
+				<h1 class="h3 mb-3 fw-normal text-center">Please sign in</h1>
+				<div class="form-floating">
+					<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+					<label for="floatingInput">Email address</label>
+				</div>
+				<div class="form-floating">
+					<input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+					<label for="floatingPassword">Password</label>
+				</div>
+				<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+			</form>
+		</main>
+		<footer class="mastfoot mt-auto">
+			<div class="inner text-center">
+				<p class="mt-5 mb-3 text-muted">Made By <a href="https://github.com/anime-sh">Animesh Jha</a>, <a
+						href="https://github.com/nisarg1631">Nisarg Upadhaya</a> and <a
+						href="https://github.com/kodekuzuri">Pranav
+						Rajput</a></p>
+			</div>
+		</footer>
+	</div>
+</body>
+
+</html>
