@@ -1,0 +1,6 @@
+flask
+gunicorn
+statistics
+numpy
+pymongo
+re
