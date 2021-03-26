@@ -1,6 +1,6 @@
 flask
 gunicorn
-statistics
+dnspython
 numpy
 pymongo
-re
+mongoengine
