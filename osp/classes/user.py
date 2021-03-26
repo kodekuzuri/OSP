@@ -4,10 +4,11 @@ from osp.classes.address import Address
 # USER CLASS
 
 class User(Document):
-    userId = StringField(required=True, min_length=1, unique=True)
+    # currently using the generated object id of mongodb atlas as unique userid
+    uniqueid = StringField()
     password = StringField(required=True, min_length=1)
-    name = StringField(required=True, min_length=1)
     email = EmailField(required=True)
+    name = StringField(required=True, min_length=1)
     number = StringField(required=True, regex='^[0-9]{10}$')
 
     meta = {'allow_inheritance': True}

@@ -13,10 +13,10 @@ def Login(userId, password, type=0):
     """
 
     if type == 0:
-        return True if Manager.objects(userId=userId, password=password).count() else False
+        return True if Manager.objects(uniqueid=userId, password=password).count() else False
     
     elif type == 1:
-        return True if Buyer.objects(userId=userId, password=password).count() else False
+        return True if Buyer.objects(uniqueid=userId, password=password).count() else False
     
     else:
-        return True if Seller.objects(userId=userId, password=password).count() else False
+        return True if Seller.objects(uniqueid=userId, password=password).count() else False

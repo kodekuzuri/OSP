@@ -4,7 +4,7 @@ from mongoengine import *
 
 class Address(Document):
     houseNumber = StringField(required=True, min_length=1)
-    street = StringField()
+    street = StringField(required=True)
     locality = StringField(required=True, min_length=1)
     city = StringField(required=True, min_length=1)
     state = StringField(required=True, min_length=1)
