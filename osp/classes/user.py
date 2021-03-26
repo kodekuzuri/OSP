@@ -1,5 +1,5 @@
 from mongoengine import *
-from .address import Address
+from osp.classes.address import Address
 
 # USER CLASS
 
@@ -7,7 +7,7 @@ class User(Document):
     userId = StringField(required=True, min_length=1, unique=True)
     password = StringField(required=True, min_length=1)
     name = StringField(required=True, min_length=1)
-    email = EmailField(required=True) # move to inherited classes and ensure uniqueness?
+    email = EmailField(required=True)
     number = StringField(required=True, regex='^[0-9]{10}$')
 
     meta = {'allow_inheritance': True}

@@ -8,4 +8,4 @@ class Address(Document):
     locality = StringField(required=True, min_length=1)
     city = StringField(required=True, min_length=1)
     state = StringField(required=True, min_length=1)
-    pincode = StringField(required=True, regex="^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$")
+    pincode = StringField(required=True, regex="^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$")
