@@ -1,5 +1,5 @@
 from mongoengine import *
-from address import Address
+from .address import Address
 
 # USER CLASS
 
@@ -23,7 +23,7 @@ class Manager(User):
 
 # CUTOMER CLASS
 
-class Cutomer(User):
+class Customer(User):
     city = StringField(required=True, min_length=1)
 
     meta = {'allow_inheritance': True}
@@ -33,6 +33,7 @@ class Cutomer(User):
 
 class Buyer(Customer):
     # buy_requests reference field (PULL type)
+    pass
 
 
 # SELLER CLASS
@@ -40,3 +41,4 @@ class Buyer(Customer):
 class Seller(Customer):
     # buy_requests reference field (PULL type)
     # items reference field (PULL type)
+    pass
