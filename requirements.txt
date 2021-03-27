@@ -4,3 +4,4 @@ dnspython
 numpy
 pymongo
 mongoengine
+pillow
