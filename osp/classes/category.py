@@ -1,6 +1,6 @@
-from mongoengine import *
-
-class Category(Document):
+import mongoengine as me
+class Category(me.Document):
     # currently using the generated object id of mongodb atlas as unique categoryid
-    uniqueid = StringField()
-    name = StringField(required=True, min_length=1)
+    uniqueid = me.StringField()
+    name = me.StringField(required=True, min_length=1,unique=True)
+

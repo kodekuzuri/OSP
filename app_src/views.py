@@ -2,7 +2,7 @@ from app_src import app
 from functools import wraps
 from flask import render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-from osp import Login, User
+from osp import Login, User, Item
 
 # make this environment variable finally
 app.secret_key = "testing_for_now_change_in_the_future"
@@ -50,7 +50,6 @@ def seller_required(func):
         return func(*args, **kwargs)
     return decorated_view
 # decorators end
-
 
 @app.route("/")
 def index():
@@ -118,3 +117,10 @@ def logout():
     logout_user()
     flash("Successfully logged out.", "info")
     return redirect("signin")
+
+
+## this returns the file as a download :(
+@app.route('/testitem') 
+def index1():
+    item = Item.objects().first()
+    return send_file(item.photo, as_attachment=True, attachment_filename='myfile.jpeg')
