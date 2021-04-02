@@ -7,8 +7,8 @@ from osp import ManagerSignUp, CustomerSignUp
 # testing for manager
 
 data1 = {
-    'name': 'Nisarg Upadhyaya',
-    'email': 'nisarg1631@gmail.com',
+    'name': 'OSP Manager',
+    'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
     'address': {
         'houseNumber': 'OSP',
@@ -19,7 +19,7 @@ data1 = {
         'pincode': '123456'
     },
     'gender': 'Male',
-    'dob': datetime.date(2001,3,16)
+    'dob': datetime.date(2001,1,1)
 }
 
 status, msg = ManagerSignUp(data1)
@@ -30,8 +30,8 @@ print(msg)
 # repeate with same email
 
 data2 = {
-    'name': 'Nisarg Upadhyaya',
-    'email': 'nisarg1631@gmail.com',
+    'name': 'OSP Manager',
+    'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
     'address': {
         'houseNumber': 'OSP',
@@ -42,7 +42,7 @@ data2 = {
         'pincode': '123456'
     },
     'gender': 'Male',
-    'dob': datetime.date(2001,3,16)
+    'dob': datetime.date(2001,1,1)
 }
 
 status, msg = ManagerSignUp(data2)
@@ -53,8 +53,8 @@ print(msg)
 # testing for buyer
 
 data3 = {
-    'name': 'Nisarg Upadhyaya',
-    'email': 'nisarg1631@gmail.com',
+    'name': 'OSP Buyer',
+    'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
     'city': 'Ahmedabad'
 }
@@ -67,8 +67,8 @@ print(msg)
 # repeate with same email
 
 data4 = {
-    'name': 'Nisarg Upadhyaya',
-    'email': 'nisarg1631@gmail.com',
+    'name': 'OSP Buyer',
+    'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
     'city': 'Ahmedabad'
 }
@@ -81,8 +81,8 @@ print(msg)
 # testing for seller
 
 data5 = {
-    'name': 'Nisarg Upadhyaya',
-    'email': 'nisarg1631@gmail.com',
+    'name': 'OSP Seller',
+    'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
     'city': 'Ahmedabad'
 }
@@ -95,8 +95,8 @@ print(msg)
 # repeate with same email
 
 data6 = {
-    'name': 'Nisarg Upadhyaya',
-    'email': 'nisarg1631@gmail.com',
+    'name': 'OSP Seller',
+    'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
     'city': 'Ahmedabad'
 }

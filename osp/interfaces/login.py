@@ -5,7 +5,7 @@ def Login(userId, password, type=0):
     """
     Login functionality to check if the credenials entered by the user are valid
 
-    Returns true if the login is a valid one, else returns false
+    Returns user if the login is a valid one, else returns none
 
     type = 0 (default) corresponds to manager login\n
     type = 1 corresponds to buyer login\n
@@ -13,10 +13,10 @@ def Login(userId, password, type=0):
     """
 
     if type == 0:
-        return True if Manager.objects(uniqueid=userId, password=password).count() else False
+        return  Manager.objects(uniqueid=userId, password=password).first()
     
     elif type == 1:
-        return True if Buyer.objects(uniqueid=userId, password=password).count() else False
+        return Buyer.objects(uniqueid=userId, password=password).first()
     
     else:
-        return True if Seller.objects(uniqueid=userId, password=password).count() else False
+        return Seller.objects(uniqueid=userId, password=password).first()

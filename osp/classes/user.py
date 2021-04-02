@@ -12,7 +12,15 @@ class User(me.Document):
     name = me.StringField(required=True, min_length=1)
     number = me.StringField(required=True, regex='^[0-9]{10}$')
 
+    is_authenticated = BooleanField(default=False)
+    is_active = BooleanField(default=True)
+    is_anonymous = BooleanField(default=False)
+
     meta = {'allow_inheritance': True}
+
+    def get_id(self):
+        """Return the uniqueid to satisfy Flask-Login's requirements."""
+        return self.uniqueid
 
 
 # MANAGER CLASS
@@ -22,6 +30,9 @@ class Manager(User):
                                 reverse_delete_rule=me.NULLIFY)
     gender = me.StringField(required=True, min_length=1)
     dateOfBirth = me.DateField(required=True)
+
+    def GetType(self):
+        return 0
 
 
 # CUTOMER CLASS
@@ -36,7 +47,9 @@ class Customer(User):
 
 class Buyer(Customer):
     # buy_requests reference field (PULL type)
-    pass
+    
+    def GetType(self):
+        return 1
 
 
 # SELLER CLASS
@@ -44,5 +57,6 @@ class Buyer(Customer):
 class Seller(Customer):
     # buy_requests reference field (PULL type)
     # items reference field (PULL type)
-    # name = me.StringField(required=True, min_length=1)
-    pass
+    
+    def GetType(self):
+        return 2

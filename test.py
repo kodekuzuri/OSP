@@ -2,15 +2,25 @@ from osp import *
 import datetime
 import secrets, string, random
 
-a = TestClass3()
-a.name = 'Nisarg'
-a.save()
 
-b = TestClass3()
-b.name = 'Animesh'
-b.save()
+# a = TestClass3()
+# a.name = 'Nisarg'
+# a.save()
 
-TestClass3.listall()
+# b = TestClass3()
+# b.name = 'Animesh'
+# b.save()
+
+# TestClass3.listall()
+
+# user = TestClass3.objects(id='605f029e136846e6154d34c2').first()
+
+# if user:
+#     print(user.name)
+# else:
+#     print("doesnt exist")
+
+
 
 # def GeneratePassword():
 #     """

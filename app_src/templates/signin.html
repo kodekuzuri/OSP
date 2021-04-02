@@ -13,18 +13,31 @@
 <body>
 	<div class="container d-flex p-3 mx-auto flex-column">
 		<main>
-			<form class="form-signin">
-				<h1 class="h3 mb-3 fw-normal text-center">Please sign in</h1>
+			<form class="form-signin" action="/signin" method="POST">
+				<h1 class="h3 mb-3 fw-normal text-center">Sign in</h1>
 				<div class="form-floating">
-					<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-					<label for="floatingInput">Email address</label>
+					<input type="text" class="form-control" id="userid" name="id" placeholder="name@example.com" required>
+					<label for="userid">User ID</label>
 				</div>
 				<div class="form-floating">
-					<input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-					<label for="floatingPassword">Password</label>
+					<input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+					<label for="password">Password</label>
 				</div>
 				<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
 			</form>
+			{% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="info" %}
+			<div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
 		</main>
 		<footer class="mastfoot mt-auto">
 			<div class="inner text-center">
