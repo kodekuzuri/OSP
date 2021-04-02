@@ -3,7 +3,7 @@ import os
 from functools import wraps
 from flask import render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-from osp import Login, User, Item
+from osp import Login, User, Item, Category
 
 # make this environment variable finally
 app.secret_key = os.environ["OSP_APPKEY"]
@@ -31,6 +31,7 @@ def manager_required(func):
         return func(*args, **kwargs)
     return decorated_view
 
+
 def buyer_required(func):
     '''If you decorate a view with this, it will ensure that the current user is a buyer'''
     @wraps(func)
@@ -40,6 +41,7 @@ def buyer_required(func):
             return redirect("signin")
         return func(*args, **kwargs)
     return decorated_view
+
 
 def seller_required(func):
     '''If you decorate a view with this, it will ensure that the current user is a seller'''
@@ -52,6 +54,7 @@ def seller_required(func):
     return decorated_view
 # decorators end
 
+
 @app.route("/")
 def index():
     return redirect("signin")
@@ -62,7 +65,7 @@ def signin():
     if request.method == "POST":
         userid = request.form["id"]
         password = request.form["password"]
-        
+
         if user := Login(userid, password, 0):
             user.is_authenticated = True
             user.save()
@@ -108,6 +111,7 @@ def seller_home():
     user = current_user
     return render_template("seller/base.html", name=user.name)
 
+
 @app.route("/logout")
 @login_required
 def logout():
@@ -120,8 +124,28 @@ def logout():
     return redirect("signin")
 
 
-## this returns the file as a download :(
-@app.route('/testitem') 
+@app.route('/seller/upload_item')
+@seller_required
+@login_required
+def upload_items():
+    user = current_user
+    return render_template("seller/uploadItem.html", name=user.name)
+
+# this returns the file as a download :(
+
+
+@app.route('/testitem')
 def index1():
     item = Item.objects().first()
     return send_file(item.photo, as_attachment=True, attachment_filename='myfile.jpeg')
+
+
+@app.route('/api/category_list', methods=['POST'])
+def ret_catlist():
+    if request.method == 'POST':
+        cat_list = [x.name for x in Category.objects()]
+        return make_response(
+            jsonify({
+                "message": "ok",
+                "list_cat":cat_list
+            }), 200)
