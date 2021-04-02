@@ -1,7 +1,8 @@
-from mongoengine import *
+import mongoengine as me
+import os
 
 # connect to database
-connect(host='mongodb+srv://ospapp:tyaLmQbvP6rJU4uY@smmh.yappb.mongodb.net/ospDatabase?retryWrites=true&w=majority') # make this environment variable finally
+me.connect(host=os.environ["OSP_DATABASE"]) # make this environment variable finally
 
 # make all relevant classes available directly
 from osp.classes import *

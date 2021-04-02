@@ -1,11 +1,12 @@
+import os
 from osp.classes import Manager, Buyer, Seller, Address
 import datetime, secrets, string, random, smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 # make these environment variable finally
-senderAddress = 'osp.noreply@gmail.com'
-senderPass = 'osp@nap3'
+senderAddress = os.environ["OSP_MAIL"]
+senderPass = os.environ["OSP_PASSWORD"]
 
 def GenerateMail(name, userId, password, receiverAddress):
     """
