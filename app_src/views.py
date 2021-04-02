@@ -1,11 +1,12 @@
 from app_src import app
+import os
 from functools import wraps
 from flask import render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from osp import Login, User, Item, Category
 
 # make this environment variable finally
-app.secret_key = "testing_for_now_change_in_the_future"
+app.secret_key = os.environ["OSP_APPKEY"]
 
 
 # Login Manager

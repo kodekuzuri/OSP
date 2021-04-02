@@ -1,6 +1,12 @@
 from osp import *
 import datetime
 import secrets, string, random
+import os
+
+print(type(os.environ["OSP_DATABASE"]))
+print(type(os.environ["OSP_MAIL"]))
+print(type(os.environ["OSP_PASSWORD"]))
+print(type(os.environ["OSP_APPKEY"]))
 
 
 # a = TestClass3()
