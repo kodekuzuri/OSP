@@ -1,15 +1,16 @@
-from mongoengine import *
+import mongoengine as me
 from osp.classes.address import Address
 
 # USER CLASS
 
-class User(Document):
+
+class User(me.Document):
     # currently using the generated object id of mongodb atlas as unique userid
-    uniqueid = StringField()
-    password = StringField(required=True, min_length=1)
-    email = EmailField(required=True)
-    name = StringField(required=True, min_length=1)
-    number = StringField(required=True, regex='^[0-9]{10}$')
+    uniqueid = me.StringField()
+    password = me.StringField(required=True, min_length=1)
+    email = me.EmailField(required=True)
+    name = me.StringField(required=True, min_length=1)
+    number = me.StringField(required=True, regex='^[0-9]{10}$')
 
     meta = {'allow_inheritance': True}
 
@@ -17,15 +18,16 @@ class User(Document):
 # MANAGER CLASS
 
 class Manager(User):
-    address = ReferenceField(Address, required=True, reverse_delete_rule=NULLIFY)
-    gender = StringField(required=True, min_length=1)
-    dateOfBirth = DateField(required=True)
+    address = me.ReferenceField(Address, required=True,
+                                reverse_delete_rule=me.NULLIFY)
+    gender = me.StringField(required=True, min_length=1)
+    dateOfBirth = me.DateField(required=True)
 
 
 # CUTOMER CLASS
 
 class Customer(User):
-    city = StringField(required=True, min_length=1)
+    city = me.StringField(required=True, min_length=1)
 
     meta = {'allow_inheritance': True}
 
@@ -42,4 +44,5 @@ class Buyer(Customer):
 class Seller(Customer):
     # buy_requests reference field (PULL type)
     # items reference field (PULL type)
+    # name = me.StringField(required=True, min_length=1)
     pass
