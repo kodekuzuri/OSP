@@ -5,3 +5,4 @@ numpy
 pymongo
 mongoengine
 pillow
+flask-login
