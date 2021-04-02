@@ -1,15 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Online Sales Portal">
+  <meta name="author" content="Animesh Jha, Nisarg Upadhyaya, Pranav Rajput">
+  <title>{% block title %}{% endblock %}</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
+  {% block styles %}{% endblock %}
 </head>
+
 <body>
-    Hi Manager {{name}}
-    <div>
-        <a href="/logout">LOGOUT</a>
+
+  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">OSP</a>
+    <h2 class="w-100 text-white px-2 my-0 text-center">{% block ptitle %}{% endblock %}</h2>
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <a class="nav-link" href="/logout">Sign out</a>
+      </li>
+    </ul>
+  </header>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Orders
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Products
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Reports
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Integrations
+              </a>
+            </li>
+          </ul>
+
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Saved reports</span>
+          </h6>
+          <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Current month
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Last quarter
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Social engagement
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                Year-end sale
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        {% block main %}{% endblock %}
+      </main>
     </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  {% block scripts %}{% endblock %}
 </body>
+
 </html>

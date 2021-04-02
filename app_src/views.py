@@ -5,7 +5,7 @@ from flask import render_template, jsonify, make_response, send_file, request, r
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from osp import Login, User, Item, Category
 
-# make this environment variable finally
+
 app.secret_key = os.environ["OSP_APPKEY"]
 
 
@@ -57,6 +57,14 @@ def seller_required(func):
 
 @app.route("/")
 def index():
+    if current_user.is_anonymous:
+        return redirect("signin")
+    elif current_user.GetType() == 0:
+        return redirect("manager")
+    elif current_user.GetType() == 1:
+        return redirect("buyer")
+    elif current_user.GetType() == 2:
+        return redirect("seller")
     return redirect("signin")
 
 
@@ -93,7 +101,7 @@ def signin():
 @login_required
 def manager_home():
     user = current_user
-    return render_template("manager/base.html", name=user.name)
+    return render_template("manager/home.html", name=user.name)
 
 
 @app.route("/buyer")
@@ -101,7 +109,7 @@ def manager_home():
 @login_required
 def buyer_home():
     user = current_user
-    return render_template("buyer/base.html", name=user.name)
+    return render_template("buyer/home.html", name=user.name)
 
 
 @app.route("/seller")
@@ -109,7 +117,7 @@ def buyer_home():
 @login_required
 def seller_home():
     user = current_user
-    return render_template("seller/base.html", name=user.name)
+    return render_template("seller/home.html", name=user.name)
 
 
 @app.route("/logout")
