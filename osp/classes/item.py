@@ -53,9 +53,9 @@ class Item(me.Document):
         self.company = _company
         self.city = _city
 
-        #_photo is a path
+        ## this will change  s#_photo is a path
         with open(_photo,"rb") as fd:
-            self.photo.put(fd,content_type='image/jpeg')
+            self.photo.put(fd,content_type='image/jpeg') 
 
         self.info = _info
         self.age = _age
