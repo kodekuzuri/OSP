@@ -12,9 +12,9 @@ class User(me.Document):
     name = me.StringField(required=True, min_length=1)
     number = me.StringField(required=True, regex='^[0-9]{10}$')
 
-    is_authenticated = BooleanField(default=False)
-    is_active = BooleanField(default=True)
-    is_anonymous = BooleanField(default=False)
+    is_authenticated = me.BooleanField(default=False)
+    is_active = me.BooleanField(default=True)
+    is_anonymous = me.BooleanField(default=False)
 
     meta = {'allow_inheritance': True}
 
