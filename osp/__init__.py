@@ -2,7 +2,7 @@ import mongoengine as me
 import os
 
 # connect to database
-me.connect(host=os.environ["OSP_DATABASE"]) # make this environment variable finally
+me.connect(host=os.environ["OSP_DATABASE"])
 
 # make all relevant classes available directly
 from osp.classes import *
