@@ -40,7 +40,6 @@ class BuyRequest(me.Document):
             if(self.status==1):
                 self.offer = new_price
                 self.save()
-                # email relevant ppl here
             else: 
                 raise Exception("Buy Request status wrong")
         except:

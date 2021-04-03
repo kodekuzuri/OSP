@@ -84,6 +84,11 @@ class Buyer(Customer):
                 raise Exception("Buy request doesn't exist in database.")
         except Exception as e:
             return (False, str(e))
+        
+    def Negotiate(self, buyreqid):
+        """Sends mail to relevant parties asking for negotiation"""
+        # email relevant ppl here
+        pass
 
 
 # SELLER CLASS
@@ -99,3 +104,30 @@ class Seller(Customer):
     
     def GetType(self):
         return 2
+    
+    def ApproveRequest(self, buyreqid):
+        """Approve existing buy request"""
+        from osp.classes.buyrequest import BuyRequest
+        try:
+            buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
+            if buyreq:
+                buyreq.ApproveRequest()
+                # email relevant ppl here
+                return (True, "Approved request. Payment details sent to the buyer.")
+            else:
+                raise Exception("Buy request doesn't exist in database.")
+        except Exception as e:
+            return (False, str(e))
+    
+    def ApprovePayment(self, buyreqid):
+        """Approve payment of existing buy request"""
+        from osp.classes.buyrequest import BuyRequest
+        try:
+            buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
+            if buyreq:
+                buyreq.ApprovePayment()
+                return (True, "Payment request approved.")
+            else:
+                raise Exception("Buy request doesn't exist in database.")
+        except Exception as e:
+            return (False, str(e))
