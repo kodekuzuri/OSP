@@ -11,6 +11,7 @@ BUY_REQUEST_STATUS = ((0, 'Rejected'), (1, 'Pending'), (2, 'Approved'))
 
 
 class BuyRequest(me.Document):
+    uniqueid = me.StringField()
     item = me.ReferenceField(
         Item, required=True, reverse_delete_rule=me.CASCADE)
     buyer = me.ReferenceField(Buyer, required=True,
@@ -28,6 +29,8 @@ class BuyRequest(me.Document):
             self.buyer = kwargs['buyer']
             self.seler=kwargs['seller']
             self.offer = float(kwargs['offer'])
+            self.save()
+            self.uniqueid = str(self.id)
             self.save()
         except:
             raise
