@@ -70,3 +70,10 @@ class BuyRequest(me.Document):
 
         except:
             raise
+    
+    def RejectRequest(self):
+        try:
+            self.status=0
+            self.save()
+        except:
+            raise
