@@ -9,27 +9,32 @@
 {% block ptitle %}Searched Items{% endblock %}
 
 {% block main %}
-{% for item in list_items %}
-    <div class="mt-5 card">
-        <div class="card-body">
-            <h5 class="card-title" style="color: black;">Name: {{item.name}}</h5>
-            <p class="card-text" style="color: gray;">Category: {{item.category.name}}</p>
-            <p class="card-text" style="color: gray;">Seller: {{item.seller.name}}</p>
-            <p class="card-text" style="color: gray;">Price: {{item.price}}</p>
-            <p class="card-text" style="color: gray;">Info: {{item.info}}</p>
-            <p class="card-text" style="color: gray;">Weight: {{item.weight}}</p>
-            <p class="card-text" style="color: gray;">Company: {{item.company}}</p>
-            <p class="card-text" style="color: gray;">Heavy: {{item.isheavy}}</p>
-            <p class="card-text" style="color: gray;">Age: {{item.age}}</p>
-            <p class="card-text" style="color: gray;">City: {{item.city}}</p>
-            <img src="../image_item/{{item.uniqueid}}" alt="photo">
+<div class="row g-2">
+    {% for item in list_items %}
+    <div class="col">
+        <div class="card mt-2" style="width: 18rem; height: 30rem;">
+            <img src="/image_item/{{item.uniqueid}}" class="card-img-top" alt="photo">
+            <div class="card-body overflow-auto">
+                <h5 class="card-title">Name: {{item.name}}</h5>
+                <p class="card-text">Category: {{item.category.name}}</p>
+                <p class="card-text">Seller: {{item.seller.name}}</p>
+                <p class="card-text">Price: {{item.price}}</p>
+                <p class="card-text">Info: {{item.info}}</p>
+                <p class="card-text">Weight: {{item.weight}}</p>
+                <p class="card-text">Company: {{item.company}}</p>
+                <p class="card-text">Heavy: {{item.isheavy}}</p>
+                <p class="card-text">Age: {{item.age}}</p>
+                <p class="card-text">City: {{item.city}}</p>
+            </div>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
     </div>
     {%endfor%}
+</div>
+
 
 {% endblock %}
 
 {% block scripts %}
 <!-- page specific scripts here -->
 {% endblock %}
-    
