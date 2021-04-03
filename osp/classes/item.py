@@ -1,5 +1,4 @@
 import mongoengine as me
-# from osp.classes import category
 from osp.classes.user import Seller
 from osp.classes.category import Category
 import tempfile

@@ -11,7 +11,7 @@ class TestClass(Document):
     id_ = StringField(required=True, validation=_check_id)
 
 class TestClass2(Document):
-    tc1 = ListField(ReferenceField(TestClass, reverse_delete_rule=CASCADE))
+    tc1 = ListField(ReferenceField(TestClass, reverse_delete_rule=PULL))
 
 BUY_REQUEST_STATUS = ((0, 'Rejected'), (1, 'Pending'), (2, 'Approved'))
 class TestClass3(Document):

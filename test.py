@@ -3,6 +3,13 @@ import datetime
 import secrets, string, random
 import os
 
+obj = TestClass3.objects().first()
+obj.delete()
+print(TestClass3.objects().count())
+
+# obj = Seller.objects(name="OSP Seller").first()
+# print(obj.GetItems())
+
 # print(type(os.environ["OSP_DATABASE"]))
 # print(type(os.environ["OSP_MAIL"]))
 # print(type(os.environ["OSP_PASSWORD"]))
