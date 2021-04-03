@@ -119,6 +119,19 @@ class Seller(Customer):
         except Exception as e:
             return (False, str(e))
     
+    def RejectRequest(self, buyreqid):
+        """Reject existing buy request"""
+        from osp.classes.buyrequest import BuyRequest
+        try:
+            buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
+            if buyreq:
+                buyreq.RejectRequest()
+                return (True, "Rejected request.")
+            else:
+                raise Exception("Buy request doesn't exist in database.")
+        except Exception as e:
+            return (False, str(e))
+    
     def ApprovePayment(self, buyreqid):
         """Approve payment of existing buy request"""
         from osp.classes.buyrequest import BuyRequest
