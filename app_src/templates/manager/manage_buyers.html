@@ -1,24 +1,23 @@
 {% extends "manager/base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Manage Buyers{% endblock %}
 
 {% block styles %}
 <!-- page specific stylesheets here -->
 {% endblock %}
 
-{% block ptitle %}Dashboard{% endblock %}
+{% block ptitle %}Manage Buyers{% endblock %}
 
 {% block main %}
 <!-- main page content here -->
-<div class="jumbotron mt-2">
-    <h1 class="display-5">Hi, {{user.name}}!</h1>
-    <hr class="my-4">
-</div>
+{% for buyer in buyers%}
+{{buyer.uniqueid}}
+{% endfor %}
 {% endblock %}
 
 {% block scripts %}
 <!-- page specific scripts here -->
 <script>
-    $("#nav-dashboard").addClass("active");
+    $("#nav-buyers").addClass("active");
 </script>
 {% endblock %}

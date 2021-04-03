@@ -3,7 +3,7 @@ import os
 from functools import wraps
 from flask import json, render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp, Seller
+from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp, Seller, Buyer
 
 
 app.secret_key = os.environ["OSP_APPKEY"]
@@ -114,30 +114,6 @@ def signup():
     return redirect("signin")
 
 
-@app.route("/manager")
-@manager_required
-@login_required
-def manager_home():
-    user = current_user
-    return render_template("manager/home.html", name=user.name)
-
-
-@app.route("/buyer")
-@buyer_required
-@login_required
-def buyer_home():
-    user = current_user
-    return render_template("buyer/home.html", name=user.name)
-
-
-@app.route("/seller")
-@seller_required
-@login_required
-def seller_home():
-    user = current_user
-    return render_template("seller/home.html", name=user.name)
-
-
 @app.route("/logout")
 @login_required
 def logout():
@@ -150,6 +126,73 @@ def logout():
     return redirect("signin")
 
 
+# manager views start
+
+
+@app.route("/manager")
+@manager_required
+@login_required
+def manager_home():
+    user = current_user
+    return render_template("manager/home.html", user=user)
+
+
+@app.route("/manager/manage_buyers")
+@manager_required
+@login_required
+def manager_manage_buyers():
+    return render_template("manager/manage_buyers.html", buyers=Buyer.objects())
+
+
+@app.route("/manager/manage_sellers")
+@manager_required
+@login_required
+def manager_manage_sellers():
+    return render_template("manager/manage_sellers.html")
+
+
+@app.route("/manager/manage_categories")
+@manager_required
+@login_required
+def manager_manage_categories():
+    return render_template("manager/manage_categories.html")
+
+
+@app.route("/manager/audit")
+@manager_required
+@login_required
+def manager_audit():
+    return render_template("manager/audit.html")
+
+
+# manager views end
+
+
+# buyer views start
+
+
+@app.route("/buyer")
+@buyer_required
+@login_required
+def buyer_home():
+    user = current_user
+    return render_template("buyer/home.html", name=user.name)
+
+
+# buyer views end
+
+
+# seller views start
+
+
+@app.route("/seller")
+@seller_required
+@login_required
+def seller_home():
+    user = current_user
+    return render_template("seller/home.html", name=user.name)
+
+
 @app.route('/seller/upload_item')
 @seller_required
 @login_required
@@ -157,7 +200,11 @@ def upload_items():
     user = current_user
     return render_template("seller/uploadItem.html", name=user.name)
 
-# this returns the file as a download :(
+
+# seller views end
+
+
+# other views
 
 
 @app.route('/image_item/<uid>')
