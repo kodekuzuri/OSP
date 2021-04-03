@@ -1,10 +1,9 @@
-from osp.classes.user import Seller
 from app_src import app
 import os
 from functools import wraps
 from flask import json, render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp
+from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp, Seller
 
 
 app.secret_key = os.environ["OSP_APPKEY"]
