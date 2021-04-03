@@ -10,7 +10,7 @@ class User(me.Document):
     password = me.StringField(required=True, min_length=1)
     email = me.EmailField(required=True)
     name = me.StringField(required=True, min_length=1)
-    number = me.StringField(required=True, regex='^[0-9]{10}$')
+    number = me.StringField(required=True, regex='^[1-9]{1}[0-9]{9}$')
 
     is_authenticated = me.BooleanField(default=False)
     is_active = me.BooleanField(default=True)

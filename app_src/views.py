@@ -1,10 +1,9 @@
-from osp.classes.user import Seller
 from app_src import app
 import os
 from functools import wraps
 from flask import json, render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-from osp import Login, User, Item, Category
+from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp, Seller
 
 
 app.secret_key = os.environ["OSP_APPKEY"]
@@ -97,6 +96,24 @@ def signin():
     return render_template("signin.html")
 
 
+@app.route("/signup", methods=["POST"])
+def signup():
+    data = request.form
+    if data["type"] == "manager": 
+        status, msg = ManagerSignUp(data)
+    elif data["type"] == "buyer":
+        status, msg = CustomerSignUp(data, isBuyer=True)
+    else:
+        status, msg = CustomerSignUp(data, isBuyer=False)
+    
+    if(status):
+        flash(msg, "info")
+    else:
+        flash("Signup unsuccessful. Check below for more details.", "error")
+        flash(msg, "error")
+    return redirect("signin")
+
+
 @app.route("/manager")
 @manager_required
 @login_required
@@ -146,7 +163,7 @@ def upload_items():
 @app.route('/image_item/<uid>')
 def index1(uid):
     item = Item.objects(uniqueid=uid).first()
-    return send_file(item.photo, as_attachment=True, attachment_filename='item.jpeg')
+    return send_file(item.photo, as_attachment=False, attachment_filename='item.jpeg')
 
 
 @app.route('/api/category_list', methods=['POST'])

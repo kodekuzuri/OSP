@@ -10,16 +10,14 @@ data1 = {
     'name': 'OSP Manager',
     'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
-    'address': {
-        'houseNumber': 'OSP',
-        'street': 'OSP',
-        'locality': 'OSP',
-        'city': 'OSP',
-        'state': 'OSP',
-        'pincode': '123456'
-    },
+    'houseNumber': 'OSP',
+    'street': 'OSP',
+    'locality': 'OSP',
+    'city': 'OSP',
+    'state': 'OSP',
+    'pincode': '123456',
     'gender': 'Male',
-    'dob': datetime.date(2001,1,1)
+    'dob': '2001-01-01'
 }
 
 status, msg = ManagerSignUp(data1)
@@ -33,16 +31,14 @@ data2 = {
     'name': 'OSP Manager',
     'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
-    'address': {
-        'houseNumber': 'OSP',
-        'street': 'OSP',
-        'locality': 'OSP',
-        'city': 'OSP',
-        'state': 'OSP',
-        'pincode': '123456'
-    },
+    'houseNumber': 'OSP',
+    'street': 'OSP',
+    'locality': 'OSP',
+    'city': 'OSP',
+    'state': 'OSP',
+    'pincode': '123456',
     'gender': 'Male',
-    'dob': datetime.date(2001,1,1)
+    'dob': '2001-01-01'
 }
 
 status, msg = ManagerSignUp(data2)
@@ -56,7 +52,7 @@ data3 = {
     'name': 'OSP Buyer',
     'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
-    'city': 'Ahmedabad'
+    'city': 'OSP'
 }
 
 status, msg = CustomerSignUp(data3, isBuyer=True)
@@ -70,7 +66,7 @@ data4 = {
     'name': 'OSP Buyer',
     'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
-    'city': 'Ahmedabad'
+    'city': 'OSP'
 }
 
 status, msg = CustomerSignUp(data4, isBuyer=True)
@@ -84,7 +80,7 @@ data5 = {
     'name': 'OSP Seller',
     'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
-    'city': 'Ahmedabad'
+    'city': 'OSP'
 }
 
 status, msg = CustomerSignUp(data5, isBuyer=False)
@@ -98,7 +94,7 @@ data6 = {
     'name': 'OSP Seller',
     'email': 'osp.noreply@gmail.com',
     'number': '1234567890',
-    'city': 'Ahmedabad'
+    'city': 'OSP'
 }
 
 status, msg = CustomerSignUp(data6, isBuyer=False)
