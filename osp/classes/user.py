@@ -46,17 +46,52 @@ class Customer(User):
 # BUYER CLASS
 
 class Buyer(Customer):
-    # buy_requests reference field (PULL type)
+    def GetBuyRequests(self):
+        """Get all buy requests of the buyer"""
+        from osp.classes.buyrequest import BuyRequest
+        return BuyRequest.objects(buyer=self)
     
     def GetType(self):
         return 1
+
+    def GenerateBuyRequest(self, itemid, offer):
+        """Generate a new buy request from the buyer"""
+        from osp.classes.buyrequest import BuyRequest
+        from osp.classes.item import Item
+        try:
+            # if item is heavy then it must be in the same city as the buyer
+            if item.isheavy and (item.city != self.city):
+                raise Exception("Cannot buy heavy item outside your city.")
+            item = Item.objects(uniqueid=itemid).first()
+            if item:
+                buyreq = BuyRequest()
+                buyreq.CreateBuyRequest(item=item, buyer=self, seller=item.seller, offer=offer)
+                return (True, "Buy request placed successfully.")
+            else:
+                raise Exception("Item doesn't exist in database.")    
+        except Exception as e:
+            return (False, str(e))
+    
+    def ChangeOfferPrice(self, buyreqid, newprice):
+        """Change offer price of existing buy request"""
+        from osp.classes.buyrequest import BuyRequest
+        try:
+            buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
+            if buyreq:
+                buyreq.ChangeOfferPrice(newprice)
+                return (True, "Offer price changed successfully.")
+            else:
+                raise Exception("Buy request doesn't exist in database.")
+        except Exception as e:
+            return (False, str(e))
 
 
 # SELLER CLASS
 
 class Seller(Customer):
-    # buy_requests reference field (PULL type)
-    # items reference field (PULL type)
+    def GetBuyRequests(self):
+        from osp.classes.buyrequest import BuyRequest
+        return BuyRequest.objects(seller=self)
 
     def GetItems(self):
         from osp.classes.item import Item
