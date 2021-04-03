@@ -2,6 +2,10 @@ import mongoengine as me
 # from osp.classes import category
 from osp.classes.user import Seller
 from osp.classes.category import Category
+import tempfile
+import base64
+
+# this can change depending if you send the JSON by url or not
 
 # from PIL import Image
 
@@ -27,13 +31,13 @@ class Item(me.Document):
         _name = kwargs['name']
         _category = kwargs['category']
         _seller = kwargs['seller']
-        _price = kwargs['price']
+        _price = int(kwargs['price'])
         _company = kwargs['company']
         _city = kwargs['city']
         _photo = kwargs['photo']
         _info = kwargs['info']
-        _age = kwargs['age']
-        _weight = kwargs['weight']
+        _age = int(kwargs['age'])
+        _weight = int(kwargs['weight'])
 
         self.name = _name
 
@@ -54,13 +58,24 @@ class Item(me.Document):
         self.city = _city
 
         ## this will change  s#_photo is a path
-        with open(_photo,"rb") as fd:
-            self.photo.put(fd,content_type='image/jpeg') 
+        # with open(_photo,"rb") as fd:
+        #     self.photo.put(fd,content_type='image/jpeg') 
+        print("temp work started")
+        file_like = base64.b64decode(_photo)
+        bytes_image = bytearray(file_like)
 
+        with tempfile.TemporaryFile() as f:
+            f.write(bytes_image)
+            f.flush()
+            f.seek(0)
+            self.photo.put(f)
         self.info = _info
         self.age = _age
         self.weight = _weight
         self.isheavy = True if _weight > 500 else False  # store 500 as a var
+        # self.uploadToDB()
+        print("temp work finished")
+
 
     def uploadToDB(self):
         try:
