@@ -1,22 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "buyer/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload item</title>
-</head>
+{% block title %}Upload Item{% endblock %}
 
-<body>
+{% block styles %}
+<!-- page specific stylesheets here -->
+{% endblock %}
 
-    Hi {{name}} Upload item here
+{% block ptitle %}Upload Item{% endblock %}
 
-    <div id="upload">
-        counter=[[categories]]
-        <button v-on:click="getCats()"> get cats?</button>
+{% block main %}
+
+<div id="upload">
+    <div id="firstscreen" v-if="!display_form">
+        <h3>Hi {{name}} Upload item here.</h3>
+        You need to upload the following information
+        <ol>
+            <li>Name of the Item</li>
+            <li>Category</li>
+            <li>Seller </li>
+            <li>Price </li>
+            <li>Company </li>
+            <li>City </li>
+            <li>Photo </li>
+            <li>Info </li>
+            <li>Age </li>
+            <li>Weight </li>
+        </ol>
+        <button v-on:click="getCats()"> Upload Items</button>
     </div>
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="{{ url_for('static', filename='js/uploadItem.js') }}"></script>
-</body>
-</html>
+    <div id="mainform" v-if="display_form">
+        <h3>FORM</h3>
+        <form @submit="checkForm">
+            <p v-if="errors.length">
+                <b>Please correct the following error(s):</b>
+            <ul>
+                <li v-for="error in errors">[[error]] </li>
+            </ul>
+            </p>
+            <p>
+                <label for="Name">Name</label>
+                <input id="Name" v-model="Name" type="text" name="Name">
+            </p>
+            <p>
+                <label for="Category">Category</label>
+                <select id="Category" v-model="Category" name="Category">
+                    <option v-for="cat in categories">[[cat]] </option>
+                </select>
+            </p>
+            <p>
+                <label for="Price">Price</label>
+                <input id="Price" v-model="Price" type="number" name="Price" min="0">
+            </p>
+            <p>
+                <label for="Company">Company</label>
+                <input id="Company" v-model="Company" type="text" name="Company">
+            </p>
+            <p>
+                <label for="City">City</label>
+                <input id="City" v-model="City" type="text" name="City">
+            </p>
+
+            <p>
+                <label for="Info">Info</label>
+                <input id="Info" v-model="Info" type="text" name="Info">
+            </p>
+            <p>
+                <label for="Age">Age</label>
+                <input id="Age" v-model="Age" type="number" name="Age" min="0">
+            </p>
+            <p>
+                <label for="Weight">Weight</label>
+                <input id="Weight" v-model="Weight" type="number" name="Weight" min="0">
+            </p>
+            <p v-if="!Image">
+                <label for="Image">Image</label>
+                <input type="file" v-on:change="onFileChange" name="Image" accept="image/*" id="Image" class="input-file">
+            </p>
+            <p>
+                <input type="submit" value="Submit">
+            </p>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<!-- page specific scripts here -->
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="{{ url_for('static', filename='js/uploadItem.js') }}"></script>
+{% endblock %}

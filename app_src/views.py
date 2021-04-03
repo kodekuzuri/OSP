@@ -1,7 +1,8 @@
+from osp.classes.user import Seller
 from app_src import app
 import os
 from functools import wraps
-from flask import render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
+from flask import json, render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from osp import Login, User, Item, Category
 
@@ -144,7 +145,7 @@ def upload_items():
 
 @app.route('/testitem')
 def index1():
-    item = Item.objects().first()
+    item = Item.objects(name="test_item").first()
     return send_file(item.photo, as_attachment=True, attachment_filename='myfile.jpeg')
 
 
@@ -155,5 +156,23 @@ def ret_catlist():
         return make_response(
             jsonify({
                 "message": "ok",
-                "list_cat":cat_list
+                "list_cat": cat_list
+            }), 200)
+
+@app.route('/api/upload_item', methods=['POST'])
+def up_item():
+    if request.method == 'POST':
+        data=request.get_json()
+        i1=Item()
+        data['seller']=current_user.name
+        data['photo']=data['photo'].split(',')[1]
+        print("hihihihi")
+        i1.createItem(**data)
+        print("hihihihi")
+        print(i1.__dict__)
+        i1.uploadToDB()
+        print("hihihihi")
+        return make_response(
+            jsonify({
+                "message": "ok"
             }), 200)
