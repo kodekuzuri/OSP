@@ -163,7 +163,7 @@ def upload_items():
 @app.route('/image_item/<uid>')
 def index1(uid):
     item = Item.objects(uniqueid=uid).first()
-    return send_file(item.photo, as_attachment=True, attachment_filename='item.jpeg')
+    return send_file(item.photo, as_attachment=False, attachment_filename='item.jpeg')
 
 
 @app.route('/api/category_list', methods=['POST'])
