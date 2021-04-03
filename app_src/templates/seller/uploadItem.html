@@ -11,7 +11,7 @@
 {% block main %}
 
 <div id="upload">
-    <div id="firstscreen" v-if="!display_form">
+    <div id="firstscreen" v-if="!display_form && !display_success">
         <h3>Hi {{name}} Upload item here.</h3>
         You need to upload the following information
         <ol>

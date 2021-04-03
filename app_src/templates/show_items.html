@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Items</title>
+</head>
+
+<body>
+    {% for item in list_items %}
+    <div class="mt-5 card">
+        <div class="card-body">
+            <h5 class="card-title" style="color: black;">Name: {{item.name}}</h5>
+            <p class="card-text" style="color: gray;">Category: {{item.category.name}}</p>
+            <p class="card-text" style="color: gray;">Price: {{item.price}}</p>
+            <p class="card-text" style="color: gray;">Info: {{item.info}}</p>
+            <p class="card-text" style="color: gray;">Weight: {{item.weight}}</p>
+            <p class="card-text" style="color: gray;">Company: {{item.company}}</p>
+            <p class="card-text" style="color: gray;">Heavy: {{item.isheavy}}</p>
+            <p class="card-text" style="color: gray;">Age: {{item.age}}</p>
+            <p class="card-text" style="color: gray;">City: {{item.city}}</p>
+            <img src="../image_item/{{item.uniqueid}}" alt="photo">
+
+        </div>
+    </div>
+    {%endfor%}
+</body>
+
+</html>
