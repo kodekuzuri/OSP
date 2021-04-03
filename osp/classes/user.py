@@ -77,7 +77,13 @@ class Buyer(Customer):
         from osp.classes.buyrequest import BuyRequest
         try:
             buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
-
+            if buyreq:
+                buyreq.ChangeOfferPrice(newprice)
+                return (True, "Offer price changed successfully.")
+            else:
+                raise Exception("Buy request doesn't exist in database.")
+        except Exception as e:
+            return (False, str(e))
 
 
 # SELLER CLASS
