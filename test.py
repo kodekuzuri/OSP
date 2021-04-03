@@ -3,11 +3,13 @@ import datetime
 import secrets, string, random
 import os
 
-print(type(os.environ["OSP_DATABASE"]))
-print(type(os.environ["OSP_MAIL"]))
-print(type(os.environ["OSP_PASSWORD"]))
-print(type(os.environ["OSP_APPKEY"]))
+# print(type(os.environ["OSP_DATABASE"]))
+# print(type(os.environ["OSP_MAIL"]))
+# print(type(os.environ["OSP_PASSWORD"]))
+# print(type(os.environ["OSP_APPKEY"]))
 
+# a = datetime.datetime.strptime("2001-03-16", "%Y-%m-%d")
+# print(a)
 
 # a = TestClass3()
 # a.name = 'Nisarg'

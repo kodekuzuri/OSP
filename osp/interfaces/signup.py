@@ -44,16 +44,14 @@ def ManagerSignUp(data):
         'name': string,
         'email': valid email string,
         'number': 10 digit string,
-        'address': {
-            'houseNumber': string,
-            'street': string,
-            'locality': string,
-            'city': string,
-            'state': string,
-            'pincode': 6 digit string
-        },
+        'houseNumber': string,
+        'street': string,
+        'locality': string,
+        'city': string,
+        'state': string,
+        'pincode': 6 digit string,
         'gender': string,
-        'dob': valid date object
+        'dob': string in yyyy-mm-dd format
     }\n
     It then assigns an id and password to the user and sends it on the email provided\n
     It returns a tuple (status, msg) with status=True if signup was successful and False otherwise,
@@ -68,10 +66,9 @@ def ManagerSignUp(data):
         user.name = data['name']
         user.email = data['email']
         user.number = data['number']
-        addrdata = data['address']
-        user.address = Address(houseNumber=addrdata['houseNumber'], street=addrdata['street'], locality=addrdata['locality'], city=addrdata['city'], state=addrdata['state'], pincode=addrdata['pincode']).save()
+        user.address = Address(houseNumber=data['houseNumber'], street=data['street'], locality=data['locality'], city=data['city'], state=data['state'], pincode=data['pincode']).save()
         user.gender = data['gender']
-        user.dateOfBirth = data['dob']
+        user.dateOfBirth = datetime.datetime.strptime(data['dob'], "%Y-%m-%d")
         user.save()
         user.uniqueid = str(user.id)
         user.save()
@@ -82,12 +79,12 @@ def ManagerSignUp(data):
         text = GenerateMail(user.name, user.uniqueid, user.password, user.email)
         session.sendmail(senderAddress, user.email, text)
         session.quit()
-        return (True, "Signup Successful")
+        return (True, "Signup successful. Check your inbox for login credentials.")
 
     except Exception as e:
         if user.address:
             user.address.delete()
-        return (False, e)
+        return (False, str(e))
 
 
 def CustomerSignUp(data, isBuyer=True):
@@ -132,7 +129,7 @@ def CustomerSignUp(data, isBuyer=True):
         text = GenerateMail(user.name, user.uniqueid, user.password, user.email)
         session.sendmail(senderAddress, user.email, text)
         session.quit()
-        return (True, "Signup Successful")
+        return (True, "Signup successful. Check your inbox for login credentials.")
 
     except Exception as e:
-        return (False, e)
+        return (False, str(e))

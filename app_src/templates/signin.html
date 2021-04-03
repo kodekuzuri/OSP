@@ -14,16 +14,22 @@
 	<div class="container d-flex p-3 mx-auto flex-column">
 		<main>
 			<form class="form-signin" action="/signin" method="POST">
-				<h1 class="h3 mb-3 fw-normal text-center">Sign in</h1>
+				<h1 class="h3 mb-3 fw-normal text-center">Welcome to OSP</h1>
 				<div class="form-floating">
-					<input type="text" class="form-control" id="userid" name="id" placeholder="name@example.com" required>
+					<input type="text" class="form-control" id="userid" name="id" placeholder="name@example.com"
+						required>
 					<label for="userid">User ID</label>
 				</div>
 				<div class="form-floating">
-					<input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+					<input type="password" class="form-control" id="password" name="password" placeholder="Password"
+						required>
 					<label for="password">Password</label>
 				</div>
 				<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+				<button type="button" class="w-100 btn btn-lg btn-secondary mt-2" data-bs-toggle="modal"
+					data-bs-target="#exampleModal">
+					Sign up
+				</button>
 			</form>
 			{% with messages = get_flashed_messages(with_categories=true) %}
 			{% for category, message in messages %}
@@ -38,6 +44,184 @@
 			{% endif %}
 			{% endfor %}
 			{% endwith %}
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="form-check form-check-inline">
+								<h5 class="modal-title" id="exampleModalLabel">Sign up as</h5>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+									value="customer" checked>
+								<label class="form-check-label" for="inlineRadio1">Customer</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+									value="manager">
+								<label class="form-check-label" for="inlineRadio2">Manager</label>
+							</div>
+						</div>
+						<div class="modal-body">
+							<form class="form-group" id="manager-signup" action="/signup" method="POST">
+								<div class="row mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="name" class="form-control" id="floatingInput"
+												placeholder="name" required>
+											<label for="floatingInput">Name</label>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="email" name="email" class="form-control" id="floatingInput"
+												placeholder="name@example.com" required>
+											<label for="floatingInput">Email</label>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="tel" name="number" class="form-control" id="floatingInput"
+												placeholder="1234567890" required>
+											<label for="floatingInput">Number</label>
+										</div>
+									</div>
+								</div>
+								<div class="row g-2 mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="houseNumber" class="form-control" id="floatingInput"
+												placeholder="sample" required>
+											<label for="floatingInput">House No.</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="street" class="form-control" id="floatingInput"
+												placeholder="sample">
+											<label for="floatingInput">Street</label>
+										</div>
+									</div>
+								</div>
+								<div class="row g-2 mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="locality" class="form-control" id="floatingInput"
+												placeholder="sample" required>
+											<label for="floatingInput">Locality</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="city" class="form-control" id="floatingInput"
+												placeholder="sample" required>
+											<label for="floatingInput">City</label>
+										</div>
+									</div>
+								</div>
+								<div class="row g-2 mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="state" class="form-control" id="floatingInput"
+												placeholder="sample" required>
+											<label for="floatingInput">State</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="pincode" class="form-control" id="floatingInput"
+												placeholder="sample" required>
+											<label for="floatingInput">Pincode</label>
+										</div>
+									</div>
+								</div>
+								<div class="row g-2 mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="gender" class="form-control" id="floatingInput"
+												placeholder="sample" required>
+											<label for="floatingInput">Gender</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-floating">
+											<input type="date" name="dob" class="form-control" id="floatingInput"
+												placeholder="sample" required>
+											<label for="floatingInput">Date of Birth</label>
+										</div>
+									</div>
+								</div>
+								<input class="form-check-input" type="radio" name="type" id="inlineRadio5"
+									value="manager" checked hidden>
+								<button type="submit" class="btn btn-primary mx-auto w-100">Sign up</button>
+							</form>
+							<form class="form-group" id="customer-signup" action="/signup" method="POST">
+								<div class="row mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="name" class="form-control" id="floatingInput"
+												placeholder="name" required>
+											<label for="floatingInput">Name</label>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="email" name="email" class="form-control" id="floatingInput"
+												placeholder="name@example.com" required>
+											<label for="floatingInput">Email</label>
+										</div>
+									</div>
+								</div>
+								<div class="row g-2 mb-2">
+									<div class="col">
+										<div class="form-floating">
+											<input type="tel" name="number" class="form-control" id="floatingInput"
+												placeholder="1234567890" required>
+											<label for="floatingInput">Number</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="city" class="form-control" id="floatingInput"
+												placeholder="sample" required>
+											<label for="floatingInput">City</label>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-2">
+									<div class="col">
+										<div class="form-check form-check-inline px-0">
+											Register as:
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="type"
+												id="inlineRadio3" value="buyer" checked>
+											<label class="form-check-label" for="inlineRadio3">Buyer</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="type"
+												id="inlineRadio4" value="seller">
+											<label class="form-check-label" for="inlineRadio4">Seller</label>
+										</div>
+									</div>
+								</div>
+								<button type="submit" class="btn btn-primary mx-auto w-100">Sign up</button>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</main>
 		<footer class="mastfoot mt-auto">
 			<div class="inner text-center">
@@ -48,6 +232,19 @@
 			</div>
 		</footer>
 	</div>
+	<script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+	<script>
+		$("#manager-signup").hide();
+		$("#inlineRadio2").change(function () {
+			$("#customer-signup").show();
+			$("#manager-signup").hide();
+		});
+		$("#inlineRadio1").change(function () {
+			$("#customer-signup").hide();
+			$("#manager-signup").show();
+		});
+	</script>
 </body>
 
 </html>

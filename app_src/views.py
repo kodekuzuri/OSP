@@ -3,7 +3,7 @@ import os
 from functools import wraps
 from flask import render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-from osp import Login, User, Item, Category
+from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp
 
 
 app.secret_key = os.environ["OSP_APPKEY"]
@@ -94,6 +94,24 @@ def signin():
             return render_template("signin.html")
 
     return render_template("signin.html")
+
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    data = request.form
+    if data["type"] == "manager": 
+        status, msg = ManagerSignUp(data)
+    elif data["type"] == "buyer":
+        status, msg = CustomerSignUp(data, isBuyer=True)
+    else:
+        status, msg = CustomerSignUp(data, isBuyer=False)
+    
+    if(status):
+        flash(msg, "info")
+    else:
+        flash("Signup unsuccessful. Check below for more details.", "error")
+        flash(msg, "error")
+    return redirect("signin")
 
 
 @app.route("/manager")
