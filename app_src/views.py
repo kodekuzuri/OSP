@@ -143,10 +143,10 @@ def upload_items():
 # this returns the file as a download :(
 
 
-@app.route('/testitem')
-def index1():
-    item = Item.objects(name="test_item").first()
-    return send_file(item.photo, as_attachment=True, attachment_filename='myfile.jpeg')
+@app.route('/image_item/<uid>')
+def index1(uid):
+    item = Item.objects(uniqueid=uid).first()
+    return send_file(item.photo, as_attachment=True, attachment_filename='item.jpeg')
 
 
 @app.route('/api/category_list', methods=['POST'])

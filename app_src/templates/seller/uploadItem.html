@@ -28,7 +28,7 @@
         </ol>
         <button v-on:click="getCats()"> Upload Items</button>
     </div>
-    <div id="mainform" v-if="display_form">
+    <div id="mainform" v-if="display_form && !display_success">
         <h3>FORM</h3>
         <form @submit="checkForm">
             <p v-if="errors.length">
@@ -80,6 +80,9 @@
                 <input type="submit" value="Submit">
             </p>
         </form>
+    </div>
+    <div id="succ" v-if="display_success">
+        <h3>Item Successfully uploaded</h3>
     </div>
 </div>
 
