@@ -4,10 +4,6 @@ from osp.classes.category import Category
 import tempfile
 import base64
 
-# this can change depending if you send the JSON by url or not
-
-# from PIL import Image
-
 
 class Item(me.Document):
     # currently using the generated object id of mongodb atlas as unique itemid
@@ -25,8 +21,7 @@ class Item(me.Document):
     weight = me.FloatField(required=True, min_value=0)
     isheavy = me.BooleanField(required=True)
 
-
-    def createItem(self,**kwargs):    
+    def createItem(self, **kwargs):
         _name = kwargs['name']
         _category = kwargs['category']
         _seller = kwargs['seller']
@@ -37,32 +32,25 @@ class Item(me.Document):
         _info = kwargs['info']
         _age = int(kwargs['age'])
         _weight = int(kwargs['weight'])
-
         self.name = _name
 
-        #category passed is a string
+        # category passed is a string
         if not Category.objects(name=_category).count():
             raise Exception("No such category")
         else:
             self.category = Category.objects(name=_category).first()
-        
+
         # seller passed to constructor is string
         if not Seller.objects(name=_seller).count():
             raise Exception("No such seller")
         else:
             self.seller = Seller.objects(name=_seller).first()
-        
+
         self.price = _price
         self.company = _company
         self.city = _city
-
-        ## this will change  s#_photo is a path
-        # with open(_photo,"rb") as fd:
-        #     self.photo.put(fd,content_type='image/jpeg') 
-        print("temp work started")
         file_like = base64.b64decode(_photo)
         bytes_image = bytearray(file_like)
-
         with tempfile.TemporaryFile() as f:
             f.write(bytes_image)
             f.flush()
@@ -72,9 +60,6 @@ class Item(me.Document):
         self.age = _age
         self.weight = _weight
         self.isheavy = True if _weight > 500 else False  # store 500 as a var
-        # self.uploadToDB()
-        print("temp work finished")
-
 
     def uploadToDB(self):
         try:
@@ -83,6 +68,7 @@ class Item(me.Document):
             self.save()
         except:
             raise
+
     @staticmethod
     def searchItems_Name(name_):
         return Item.objects(name=name_)
@@ -95,5 +81,20 @@ class Item(me.Document):
             cat = Category.objects(name=cat_).first()
         return Item.objects(category=cat)
 
-        
-        
+
+class SoldItem(me.Document):
+    name = me.StringField(required=True, min_length=1)
+    category = me.StringField(required=True, min_length=1)
+    buyer = me.StringField(required=True, min_length=1)
+    seller = me.StringField(required=True, min_length=1)
+    price = me.FloatField(required=True, min_value=0)
+    photo = me.ImageField(required=True)
+
+    def CreateAndUploadSoldItem(self,**kwargs):
+        self.name = kwargs['name']
+        self.category = kwargs['category']
+        self.buyer = kwargs['buyer']
+        self.seller = kwargs['seller']
+        self.price = kwargs['price']
+        self.photo = kwargs['photo']
+        self.save()
