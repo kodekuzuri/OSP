@@ -176,3 +176,18 @@ def up_item():
             jsonify({
                 "message": "ok"
             }), 200)
+
+@app.route('/user/search_items')
+def search_base():
+    return render_template('/search_base.html')
+
+@app.route('/search_name/<name>')
+def search_item_name(name):
+    return render_template('/show_items.html',list_items=Item.searchItems_Name(name_=name))
+
+@app.route('/search_cat/<cat>')
+def search_item_cat(cat):
+    x=Item.searchItems_Category(cat_=cat)
+    print(x)
+    return render_template('/show_items.html',list_items=x)
+    

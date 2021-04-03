@@ -84,3 +84,17 @@ class Item(me.Document):
             self.save()
         except:
             raise
+    @staticmethod
+    def searchItems_Name(name_):
+        return Item.objects(name=name_)
+
+    @staticmethod
+    def searchItems_Category(cat_):
+        if not Category.objects(name=cat_).count():
+            raise Exception("No such category")
+        else:
+            cat = Category.objects(name=cat_).first()
+        return Item.objects(category=cat)
+
+        
+        
