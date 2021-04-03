@@ -1,4 +1,4 @@
-from mongoengine import me
+import mongoengine as me
 from osp.classes.item import Item, SoldItem
 from osp.classes.user import Buyer,Seller
 
@@ -27,7 +27,7 @@ class BuyRequest(me.Document):
         try:
             self.item = kwargs['item']
             self.buyer = kwargs['buyer']
-            self.seler=kwargs['seller']
+            self.seller = self.item.seller
             self.offer = float(kwargs['offer'])
             self.save()
             self.uniqueid = str(self.id)
@@ -47,33 +47,41 @@ class BuyRequest(me.Document):
 
     def ApproveRequest(self):
         try:
-            self.status = 2
-            self.save()
-            scopy= SoldItem()
-            data_dict={
-                "name":self.item.name,
-                "category":self.item.category.name,
-                "buyer":self.buyer.name,
-                "seller":self.seller.name,
-                "price":self.offer,
-                "photo":self.item.photo
-            }
-            scopy.CreateAndUploadSoldItem(**data_dict)
-            self.item.delete()
+            if(self.status==1):
+                self.status = 2
+                self.save()
+            else: 
+                raise Exception("Buy Request status wrong")
         except:
             raise
 
     def ApprovePayment(self):
         try:
-            self.paymentstatus=1
-            self.save()
-
+            if(self.status==2):
+                self.paymentstatus=1
+                self.save()
+                scopy= SoldItem()
+                data_dict={
+                    "name":self.item.name,
+                    "category":self.item.category.name,
+                    "buyer":self.buyer.name,
+                    "seller":self.seller.name,
+                    "price":self.offer,
+                    "photo":self.item.photo
+                }
+                scopy.CreateAndUploadSoldItem(**data_dict)
+                self.item.delete()
+            else: 
+                raise Exception("Buy Request status wrong")
         except:
             raise
     
     def RejectRequest(self):
         try:
-            self.status=0
-            self.save()
+            if(self.status==1):
+                self.status=0
+                self.save()
+            else: 
+                raise Exception("Buy Request status wrong") 
         except:
             raise

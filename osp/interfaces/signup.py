@@ -7,26 +7,24 @@ from email.mime.text import MIMEText
 senderAddress = os.environ["OSP_MAIL"]
 senderPass = os.environ["OSP_PASSWORD"]
 
-def GenerateMail(name, userId, password, receiverAddress):
+def SendMail(text, subject, receiverAddress):
     """
-    Utility function to generate mail content
+    Utility function to send mail
     """
-    message = MIMEMultipart()
-    message['From'] = senderAddress
-    message['To'] = receiverAddress
-    message['Subject'] = 'Welcome to Online Sales Portal'
-    mail_content = f'''Hello {name},
-
-    Here are your login credentials for the portal:
-        User ID: {userId}
-        Password: {password}
-    
-    Thank you.
-    Regards,
-    Team OSP
-    '''
-    message.attach(MIMEText(mail_content, 'plain'))
-    return message.as_string()
+    try:
+        message = MIMEMultipart()
+        message['From'] = senderAddress
+        message['To'] = receiverAddress
+        message['Subject'] = subject
+        mail_content = text
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.starttls()
+        session.login(senderAddress, senderPass)
+        message.attach(MIMEText(mail_content, 'plain'))
+        session.sendmail(senderAddress, receiverAddress, message.as_string())
+        session.quit()
+    except:
+        raise
 
 def GeneratePassword():
     """
@@ -59,8 +57,8 @@ def ManagerSignUp(data):
     """
     user = Manager()
     try:
-        if Manager.objects(email=data['email']).count():
-            raise Exception("Manager with given email ID already exists.")
+        # if Manager.objects(email=data['email']).count():
+        #     raise Exception("Manager with given email ID already exists.")
         
         user.password = GeneratePassword()
         user.name = data['name']
@@ -73,12 +71,18 @@ def ManagerSignUp(data):
         user.uniqueid = str(user.id)
         user.save()
         
-        session = smtplib.SMTP('smtp.gmail.com', 587)
-        session.starttls()
-        session.login(senderAddress, senderPass)
-        text = GenerateMail(user.name, user.uniqueid, user.password, user.email)
-        session.sendmail(senderAddress, user.email, text)
-        session.quit()
+        text = f'''Hello {user.name},
+
+        Here are your login credentials for the portal:
+            User ID: {user.uniqueid}
+            Password: {user.password}
+
+        Thank you.
+        Regards,
+        Team OSP
+        '''
+        subject = 'Welcome to Online Sales Portal'
+        SendMail(text, subject, user.email)
         return (True, "Signup successful. Check your inbox for login credentials.")
 
     except Exception as e:

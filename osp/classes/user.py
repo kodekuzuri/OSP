@@ -59,13 +59,13 @@ class Buyer(Customer):
         from osp.classes.buyrequest import BuyRequest
         from osp.classes.item import Item
         try:
-            # if item is heavy then it must be in the same city as the buyer
-            if item.isheavy and (item.city != self.city):
-                raise Exception("Cannot buy heavy item outside your city.")
             item = Item.objects(uniqueid=itemid).first()
+            # if item is heavy then it must be in the same city as the buyer
+            if item.isheavy and (str(item.city).casefold() != str(self.city).casefold()):
+                raise Exception("Cannot buy heavy item outside your city.")
             if item:
                 buyreq = BuyRequest()
-                buyreq.CreateBuyRequest(item=item, buyer=self, seller=item.seller, offer=offer)
+                buyreq.CreateBuyRequest(item=item, buyer=self, offer=offer)
                 return (True, "Buy request placed successfully.")
             else:
                 raise Exception("Item doesn't exist in database.")    
@@ -87,8 +87,31 @@ class Buyer(Customer):
         
     def Negotiate(self, buyreqid):
         """Sends mail to relevant parties asking for negotiation"""
-        # email relevant ppl here
-        pass
+        from osp.classes.buyrequest import BuyRequest
+        from osp.interfaces.signup import SendMail
+        try:
+            buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
+            if buyreq:
+                buyer_mail = self.email
+                seller_mail = buyreq.seller.email
+                manager_mail = Manager.objects().first().email
+                text = f'''Hello,
+                
+                Negotiation requested for buy request {buyreqid} of item {buyreq.item.name} by {self.name}.
+
+                Regards,
+                Team OSP
+                '''
+                subject = 'Negotiation request'
+                SendMail(text, subject, buyer_mail)
+                SendMail(text, subject, seller_mail)
+                SendMail(text, subject, manager_mail)
+                return (True, "Negotiation request placed successfully.")
+            else:
+                raise Exception("Buy request doesn't exist in database.")
+        except Exception as e:
+            return (False, str(e))
+
 
 
 # SELLER CLASS
@@ -108,11 +131,26 @@ class Seller(Customer):
     def ApproveRequest(self, buyreqid):
         """Approve existing buy request"""
         from osp.classes.buyrequest import BuyRequest
+        from osp.interfaces.signup import SendMail
         try:
             buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
             if buyreq:
+                buyer_mail = buyreq.buyer.email
+                seller_mail = buyreq.seller.email
+                manager_mail = Manager.objects().first().email
                 buyreq.ApproveRequest()
-                # email relevant ppl here
+                text = f'''Hello,
+                
+                Buy request {buyreqid} of item {buyreq.item.name} by {buyreq.buyer.name} has been approved by {buyreq.seller.name}.
+                Here is the payment link <insert_payment_link>.
+
+                Regards,
+                Team OSP
+                '''
+                subject = 'Buy request approved'
+                SendMail(text, subject, buyer_mail)
+                SendMail(text, subject, seller_mail)
+                SendMail(text, subject, manager_mail)
                 return (True, "Approved request. Payment details sent to the buyer.")
             else:
                 raise Exception("Buy request doesn't exist in database.")
@@ -135,11 +173,27 @@ class Seller(Customer):
     def ApprovePayment(self, buyreqid):
         """Approve payment of existing buy request"""
         from osp.classes.buyrequest import BuyRequest
+        from osp.interfaces.signup import SendMail
         try:
             buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
             if buyreq:
+                buyer_mail = buyreq.buyer.email
+                seller_mail = buyreq.seller.email
+                manager_mail = Manager.objects().first().email
                 buyreq.ApprovePayment()
-                return (True, "Payment request approved.")
+                text = f'''Hello,
+                
+                Payment for buy request {buyreqid} of item {buyreq.item.name} by {buyreq.buyer.name} has been approved by {buyreq.seller.name}.
+                Item has been removed from the database.
+
+                Regards,
+                Team OSP
+                '''
+                subject = 'Payment approved'
+                SendMail(text, subject, buyer_mail)
+                SendMail(text, subject, seller_mail)
+                SendMail(text, subject, manager_mail)
+                return (True, "Payment approved.")
             else:
                 raise Exception("Buy request doesn't exist in database.")
         except Exception as e:
