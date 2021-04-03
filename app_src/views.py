@@ -27,7 +27,7 @@ def manager_required(func):
     def decorated_view(*args, **kwargs):
         if (not current_user.is_anonymous) and current_user.GetType() != 0:
             flash("Login as manager to access this page.")
-            return redirect("signin")
+            return redirect("/signin")
         return func(*args, **kwargs)
     return decorated_view
 
@@ -38,7 +38,7 @@ def buyer_required(func):
     def decorated_view(*args, **kwargs):
         if (not current_user.is_anonymous) and current_user.GetType() != 1:
             flash("Login as buyer to access this page.")
-            return redirect("signin")
+            return redirect("/signin")
         return func(*args, **kwargs)
     return decorated_view
 
@@ -49,7 +49,7 @@ def seller_required(func):
     def decorated_view(*args, **kwargs):
         if (not current_user.is_anonymous) and current_user.GetType() != 2:
             flash("Login as seller to access this page.")
-            return redirect("signin")
+            return redirect("/signin")
         return func(*args, **kwargs)
     return decorated_view
 # decorators end
@@ -58,14 +58,14 @@ def seller_required(func):
 @app.route("/")
 def index():
     if current_user.is_anonymous:
-        return redirect("signin")
+        return redirect("/signin")
     elif current_user.GetType() == 0:
-        return redirect("manager")
+        return redirect("/manager")
     elif current_user.GetType() == 1:
-        return redirect("buyer")
+        return redirect("/buyer")
     elif current_user.GetType() == 2:
-        return redirect("seller")
-    return redirect("signin")
+        return redirect("/seller")
+    return redirect("/signin")
 
 
 @app.route("/signin", methods=["GET", "POST"])
@@ -78,17 +78,17 @@ def signin():
             user.is_authenticated = True
             user.save()
             login_user(user)
-            return redirect("manager")
+            return redirect("/manager")
         elif user := Login(userid, password, 1):
             user.is_authenticated = True
             user.save()
             login_user(user)
-            return redirect("buyer")
+            return redirect("/buyer")
         elif user := Login(userid, password, 2):
             user.is_authenticated = True
             user.save()
             login_user(user)
-            return redirect("seller")
+            return redirect("/seller")
         else:
             flash("Invalid credentials.", "error")
             return render_template("signin.html")
@@ -111,7 +111,7 @@ def signup():
     else:
         flash("Signup unsuccessful. Check below for more details.", "error")
         flash(msg, "error")
-    return redirect("signin")
+    return redirect("/signin")
 
 
 @app.route("/logout")
@@ -123,7 +123,7 @@ def logout():
     user.save()
     logout_user()
     flash("Successfully logged out.", "info")
-    return redirect("signin")
+    return redirect("/signin")
 
 
 # manager views start
@@ -148,14 +148,27 @@ def manager_manage_buyers():
 @manager_required
 @login_required
 def manager_manage_sellers():
-    return render_template("manager/manage_sellers.html")
+    return render_template("manager/manage_sellers.html", sellers=Seller.objects())
 
 
-@app.route("/manager/manage_categories")
+@app.route("/manager/manage_categories", methods=["GET", "POST"])
 @manager_required
 @login_required
 def manager_manage_categories():
-    return render_template("manager/manage_categories.html")
+    if request.method == "POST":
+        if request.form["type"] == "add":
+            status, msg = Category.AddCategory(request.form["name"])
+        elif request.form["type"] == "remove":
+            status, msg = Category.RemoveCategory(request.form["id"])
+        else:
+            flash("Invalid request", "error")
+            return redirect("/manager/manage_categories")
+        if(status):
+            flash(msg,"info")
+        else:
+            flash(msg,"error")
+        return redirect("/manager/manage_categories")
+    return render_template("manager/manage_categories.html", categories=Category.objects())
 
 
 @app.route("/manager/audit")

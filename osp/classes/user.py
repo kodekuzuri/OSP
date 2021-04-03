@@ -57,6 +57,10 @@ class Buyer(Customer):
 class Seller(Customer):
     # buy_requests reference field (PULL type)
     # items reference field (PULL type)
+
+    def GetItems(self):
+        from osp.classes.item import Item
+        return Item.objects(seller=self)
     
     def GetType(self):
         return 2
