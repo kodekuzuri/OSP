@@ -46,17 +46,30 @@ class Customer(User):
 # BUYER CLASS
 
 class Buyer(Customer):
-    # buy_requests reference field (PULL type)
+    def GetBuyRequests(self):
+        from osp.classes.buyrequest import BuyRequest
+        return BuyRequest.objects(buyer=self)
     
     def GetType(self):
         return 1
+
+    def GenerateBuyRequest(self, item, offer):
+        from osp.classes.buyrequest import BuyRequest
+        try:
+            if item.isheavy and (item.city != self.city):
+                raise Exception("Cannot buy heavy item outside your city.")
+            buyreq = BuyRequest()
+        except Exception as e:
+            return (False, str(e))
+
 
 
 # SELLER CLASS
 
 class Seller(Customer):
-    # buy_requests reference field (PULL type)
-    # items reference field (PULL type)
+    def GetBuyRequests(self):
+        from osp.classes.buyrequest import BuyRequest
+        return BuyRequest.objects(seller=self)
 
     def GetItems(self):
         from osp.classes.item import Item
