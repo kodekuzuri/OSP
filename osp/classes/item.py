@@ -83,6 +83,7 @@ class Item(me.Document):
 
 
 class SoldItem(me.Document):
+    uniqueid = me.StringField()
     name = me.StringField(required=True, min_length=1)
     category = me.StringField(required=True, min_length=1)
     buyer = me.StringField(required=True, min_length=1)
@@ -97,4 +98,6 @@ class SoldItem(me.Document):
         self.seller = kwargs['seller']
         self.price = kwargs['price']
         self.photo = kwargs['photo']
+        self.save()
+        self.uniqueid = str(self.id)
         self.save()
