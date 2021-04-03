@@ -22,7 +22,7 @@ class BuyRequest(me.Document):
     paymentstatus = me.BooleanField(default=False)
 
     def CreateBuyRequest(self, **kwargs):
-        # kwargs gets reffield  make sure while calling the function
+        """kwargs gets reffield  make sure while calling the function"""
         try:
             self.item = kwargs['item']
             self.buyer = kwargs['buyer']
