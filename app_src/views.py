@@ -137,17 +137,35 @@ def manager_home():
     return render_template("manager/home.html", user=user)
 
 
-@app.route("/manager/manage_buyers")
+@app.route("/manager/manage_buyers", methods=["GET", "POST"])
 @manager_required
 @login_required
 def manager_manage_buyers():
+    user = current_user
+    if request.method == "POST":
+        buyerid = request.form["id"]
+        status, msg = user.ManageBuyer(buyerid)
+        if(status):
+            flash(msg, "info")
+        else:
+            flash(msg, "error")
+        return redirect("/manager/manage_buyers")
     return render_template("manager/manage_buyers.html", buyers=Buyer.objects())
 
 
-@app.route("/manager/manage_sellers")
+@app.route("/manager/manage_sellers", methods=["GET", "POST"])
 @manager_required
 @login_required
 def manager_manage_sellers():
+    user = current_user
+    if request.method == "POST":
+        sellerid = request.form["id"]
+        status, msg = user.ManageSeller(sellerid)
+        if(status):
+            flash(msg, "info")
+        else:
+            flash(msg, "error")
+        return redirect("/manager/manage_sellers")
     return render_template("manager/manage_sellers.html", sellers=Seller.objects())
 
 
@@ -189,7 +207,34 @@ def manager_audit():
 @login_required
 def buyer_home():
     user = current_user
-    return render_template("buyer/home.html", name=user.name)
+    return render_template("buyer/home.html", user=user)
+
+
+@app.route("/buyer/buy_requests", methods=["GET", "POST"])
+@buyer_required
+@login_required
+def buyer_buy_requests():
+    user = current_user
+    if request.method == "POST":
+        if request.form["type"] == "change":
+            status, msg = user.ChangeOfferPrice(request.form["id"], request.form["offer"])
+        else:
+            status, msg = user.Negotiate(request.form["id"])
+        if status:
+            flash(msg, "info")
+        else:
+            flash(msg, "error")
+        return redirect("/buyer/buy_requests")
+        
+    return render_template("buyer/buy_requests.html", user=user, buyrequests=user.GetBuyRequests())
+
+
+@app.route("/buyer/past_purchases")
+@buyer_required
+@login_required
+def buyer_past_purchases():
+    user = current_user
+    return render_template("buyer/past_purchases.html", user=user)
 
 
 # buyer views end
@@ -203,7 +248,7 @@ def buyer_home():
 @login_required
 def seller_home():
     user = current_user
-    return render_template("seller/home.html", name=user.name)
+    return render_template("seller/home.html", user=user)
 
 
 @app.route('/seller/upload_item')
@@ -212,6 +257,42 @@ def seller_home():
 def upload_items():
     user = current_user
     return render_template("seller/uploadItem.html", name=user.name)
+
+
+@app.route('/seller/buy_requests', methods=["GET", "POST"])
+@seller_required
+@login_required
+def seller_buy_requests():
+    user = current_user
+    if request.method == "POST":
+        if request.form["type"] == "accept":
+            status, msg = user.ApproveRequest(request.form["id"])
+        elif request.form["type"] == "reject":
+            status, msg = user.RejectRequest(request.form["id"])
+        else:
+            status, msg = user.ApprovePayment(request.form["id"])
+        if status:
+            flash(msg, "info")
+        else:
+            flash(msg, "error")
+        return redirect("/seller/buy_requests")
+    return render_template("seller/buy_requests.html", user=user, buyrequests=user.GetBuyRequests())
+
+
+@app.route('/seller/uploads')
+@seller_required
+@login_required
+def seller_uploads():
+    user = current_user
+    return render_template("seller/uploads.html", user=user, list_items=user.GetItems())
+
+
+@app.route('/seller/past_sales')
+@seller_required
+@login_required
+def seller_past_sales():
+    user = current_user
+    return render_template("seller/past_sales.html", user=user)
 
 
 # seller views end
@@ -243,12 +324,9 @@ def up_item():
         i1=Item()
         data['seller']=current_user.name
         data['photo']=data['photo'].split(',')[1]
-        print("hihihihi")
         i1.createItem(**data)
-        print("hihihihi")
         print(i1.__dict__)
         i1.uploadToDB()
-        print("hihihihi")
         return make_response(
             jsonify({
                 "message": "ok"
@@ -265,6 +343,5 @@ def search_item_name(name):
 @app.route('/search_cat/<cat>')
 def search_item_cat(cat):
     x=Item.searchItems_Category(cat_=cat)
-    print(x)
-    return render_template('/show_items.html',list_items=x)
+    return render_template('/show_items.html',list_items=x, user=current_user)
     

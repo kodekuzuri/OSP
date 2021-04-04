@@ -57,8 +57,8 @@ def ManagerSignUp(data):
     """
     user = Manager()
     try:
-        # if Manager.objects(email=data['email']).count():
-        #     raise Exception("Manager with given email ID already exists.")
+        if Manager.objects(email=data['email']).count():
+            raise Exception("Manager with given email ID already exists.")
         
         user.password = GeneratePassword()
         user.name = data['name']

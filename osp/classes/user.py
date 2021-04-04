@@ -34,6 +34,30 @@ class Manager(User):
     def GetType(self):
         return 0
 
+    def ManageBuyer(self, buyerid):
+        """Remove a buyer from the database"""
+        try:
+            buyer = Buyer.objects(uniqueid=buyerid).first()
+            if buyer:
+                buyer.delete()
+                return (True, "Buyer removed from database.")
+            else:
+                raise Exception("Buyer doesn't exist in database hence not removed.")
+        except Exception as e:
+            return (False, str(e))
+
+    def ManageSeller(self, sellerid):
+        """Remove a seller from the database"""
+        try:
+            seller = Seller.objects(uniqueid=sellerid).first()
+            if seller:
+                seller.delete()
+                return (True, "Seller removed from database.")
+            else:
+                raise Exception("Seller doesn't exist in database hence not removed.")
+        except Exception as e:
+            return (False, str(e))
+
 
 # CUTOMER CLASS
 
@@ -78,7 +102,7 @@ class Buyer(Customer):
         try:
             buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
             if buyreq:
-                buyreq.ChangeOfferPrice(newprice)
+                buyreq.ChangeOfferPrice(float(newprice))
                 return (True, "Offer price changed successfully.")
             else:
                 raise Exception("Buy request doesn't exist in database.")
@@ -92,6 +116,8 @@ class Buyer(Customer):
         try:
             buyreq = BuyRequest.objects(uniqueid=buyreqid).first()
             if buyreq:
+                if buyreq.status != 1:
+                    raise Exception("Can't raise negotiation for a buy request which has already been approved or rejected.")
                 buyer_mail = self.email
                 seller_mail = buyreq.seller.email
                 manager_mail = Manager.objects().first().email

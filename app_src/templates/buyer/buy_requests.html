@@ -1,0 +1,92 @@
+{% extends "buyer/base.html" %}
+
+{% block title %}Buy Requests{% endblock %}
+
+{% block styles %}
+<!-- page specific stylesheets here -->
+{% endblock %}
+
+{% block ptitle %}Buy Requests{% endblock %}
+
+{% block main %}
+<!-- main page content here -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+{% if category=="info" %}
+<div class="mx-auto alert alert-success text-center mt-4 alert-dismissible fade show" role="alert"
+    style="width: fit-content;">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+<div class="mx-auto alert alert-danger text-center mt-4 alert-dismissible fade show" role="alert"
+    style="width: fit-content;">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endfor %}
+{% endwith %}
+
+<table class="table mt-2">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item name</th>
+            <th scope="col">Seller</th>
+            <th scope="col">Offer price</th>
+            <th scope="col">Request Status</th>
+            <th scope="col">Payment Status</th>
+            <th scope="col">Manage</th>
+            <th scope="col">Change offer</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for req in buyrequests%}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{req.item.name}}</td>
+            <td>{{req.seller.name}}</td>
+            <td>{{req.offer}}</td>
+            {% if req.status==0 %}
+            <td>Rejected</td>
+            {% elif req.status==1 %}
+            <td>Pending</td>
+            {% else %}
+            <td>Approved</td>
+            {% endif %}
+            {% if req.paymentstatus==0 %}
+            <td>Pending</td>
+            {% else %}
+            <td>Approved</td>
+            {% endif %}
+            <td>
+                <form action="/buyer/buy_requests" method="post">
+                    <input type="text" name="id" value="{{req.uniqueid}}" hidden>
+                    <input type="text" name="type" value="negotiate" hidden>
+                    <button type="submit" class="btn btn-primary btn-sm">Negotiate</button>
+                </form>
+            </td>
+            <td style="width: 20rem;">
+                <form class="self-align-center" action="/buyer/buy_requests" method="post">
+                    <div class="input-group form-inline">
+                        <input type="number" name="offer" class="form-control" id="basic-url"
+                            aria-describedby="basic-addon3" placeholder="New offer" required>
+                        <input type="text" name="id" value="{{req.uniqueid}}" hidden>
+                        <input type="text" name="type" value="change" hidden>
+                        <button type="submit" class="btn btn-primary btn-sm">Change offer price</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block scripts %}
+<!-- page specific scripts here -->
+<script>
+    $("#nav-buyrequests").addClass("active");
+</script>
+{% endblock %}

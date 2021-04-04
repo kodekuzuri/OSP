@@ -41,7 +41,7 @@ class BuyRequest(me.Document):
                 self.offer = new_price
                 self.save()
             else: 
-                raise Exception("Buy Request status wrong")
+                raise Exception("Can't change offer price of buy request which has already been approved or rejected.")
         except:
             raise
 
@@ -50,8 +50,10 @@ class BuyRequest(me.Document):
             if(self.status==1):
                 self.status = 2
                 self.save()
-            else: 
-                raise Exception("Buy Request status wrong")
+            elif self.status == 2: 
+                raise Exception("Request already approved.")
+            else:
+                raise Exception("Request already rejected, can't approve it.")
         except:
             raise
 
@@ -64,15 +66,15 @@ class BuyRequest(me.Document):
                 data_dict={
                     "name":self.item.name,
                     "category":self.item.category.name,
-                    "buyer":self.buyer.name,
-                    "seller":self.seller.name,
+                    "buyer":self.buyer.uniqueid,
+                    "seller":self.seller.uniqueid,
                     "price":self.offer,
                     "photo":self.item.photo
                 }
                 scopy.CreateAndUploadSoldItem(**data_dict)
                 self.item.delete()
             else: 
-                raise Exception("Buy Request status wrong")
+                raise Exception("Can't approve payment for a request which is pending or rejected.")
         except:
             raise
     
@@ -81,7 +83,9 @@ class BuyRequest(me.Document):
             if(self.status==1):
                 self.status=0
                 self.save()
-            else: 
-                raise Exception("Buy Request status wrong") 
+            elif self.status == 0: 
+                raise Exception("Request already rejected.")
+            else:
+                raise Exception("Request already approved, can't reject it.")
         except:
             raise

@@ -1,27 +1,15 @@
-{% if user.GetType()==1 %}
-
-{% extends "buyer/base.html" %}
-
-{% elif user.GetType()==0 %}
-
-{% extends "manager/base.html" %}
-
-{% else %}
-
 {% extends "seller/base.html" %}
 
-{% endif %}
-
-
-{% block title %}Items{% endblock %}
+{% block title %}Items On Sale{% endblock %}
 
 {% block styles %}
 <!-- page specific stylesheets here -->
 {% endblock %}
 
-{% block ptitle %}Items{% endblock %}
+{% block ptitle %}Items On Sale{% endblock %}
 
 {% block main %}
+<!-- main page content here -->
 <div class="row g-2">
     {% for item in list_items %}
     <div class="col-3">
@@ -49,10 +37,11 @@
     </div>
     {% endfor %}
 </div>
-
-
 {% endblock %}
 
 {% block scripts %}
 <!-- page specific scripts here -->
+<script>
+    $("#nav-uploads").addClass("active");
+</script>
 {% endblock %}

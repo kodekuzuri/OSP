@@ -1,15 +1,65 @@
 {% extends "manager/base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Manage Sellers{% endblock %}
 
 {% block styles %}
 <!-- page specific stylesheets here -->
 {% endblock %}
 
-{% block ptitle %}Dashboard{% endblock %}
+{% block ptitle %}Manage Sellers{% endblock %}
 
 {% block main %}
 <!-- main page content here -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+{% if category=="info" %}
+<div class="mx-auto alert alert-success text-center mt-4 alert-dismissible fade show" role="alert"
+    style="width: fit-content;">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+<div class="mx-auto alert alert-danger text-center mt-4 alert-dismissible fade show" role="alert"
+    style="width: fit-content;">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endfor %}
+{% endwith %}
+
+<table class="table mt-2">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Unique ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Number</th>
+            <th scope="col">Total Items</th>
+            <th scope="col">Manage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for seller in sellers%}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{seller.name}}</td>
+            <td>{{seller.uniqueid}}</td>
+            <td>{{seller.email}}</td>
+            <td>{{seller.number}}</td>
+            <td>{{seller.GetItems().count()}}</td>
+            <td>
+                <form action="/manager/manage_sellers" method="post">
+                    <input type="text" name="id" value="{{seller.uniqueid}}" hidden>
+                    <button type="submit" class="btn btn-primary btn-sm">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}
 
 {% block scripts %}

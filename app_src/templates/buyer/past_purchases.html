@@ -1,24 +1,20 @@
 {% extends "buyer/base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Past Purchases{% endblock %}
 
 {% block styles %}
 <!-- page specific stylesheets here -->
 {% endblock %}
 
-{% block ptitle %}Dashboard{% endblock %}
+{% block ptitle %}Past Purchases{% endblock %}
 
 {% block main %}
 <!-- main page content here -->
-<div class="jumbotron mt-2">
-    <h1 class="display-5">Hi, {{user.name}}!</h1>
-    <hr class="my-4">
-</div>
 {% endblock %}
 
 {% block scripts %}
 <!-- page specific scripts here -->
 <script>
-    $("#nav-dashboard").addClass("active");
+    $("#nav-pastpurchases").addClass("active");
 </script>
 {% endblock %}
