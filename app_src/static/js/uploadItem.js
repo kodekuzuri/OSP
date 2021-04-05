@@ -69,26 +69,30 @@ const Upload = {
             }
             this.errors = [];
             if (!this.Name) {
-                this.errors.push('Name required.');
+                this.errors.push('Name is required.');
             }
             if (!this.Age) {
-                this.errors.push('Age required.');
+                this.errors.push('Age is required.');
             }
             if (!this.Price) {
-                this.errors.push('Price required.');
+                this.errors.push('Price is required.');
             }
             if (!this.Company) {
-                this.errors.push('Company required.');
+                this.errors.push('Company is required.');
             }
             if (!this.City) {
-                this.errors.push('City required.');
+                this.errors.push('City is required.');
             }
             if (!this.Weight) {
-                this.errors.push('Weight required.');
+                this.errors.push('Weight is required.');
             }
             if (!this.Info) {
-                this.errors.push('Info required.');
+                this.errors.push('Info is required.');
             }
+            if (!this.Image) {
+                this.errors.push('Image is required.');
+            }
+            
             e.preventDefault();
         },
         onFileChange(e) {

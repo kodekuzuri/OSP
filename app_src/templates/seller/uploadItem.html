@@ -12,74 +12,90 @@
 
 <div id="upload">
     <div id="firstscreen" v-if="!display_form && !display_success">
-        <h3>Hi {{name}} Upload item here.</h3>
-        You need to upload the following information
-        <ol>
-            <li>Name of the Item</li>
-            <li>Category</li>
-            <li>Seller </li>
-            <li>Price </li>
-            <li>Company </li>
-            <li>City </li>
-            <li>Photo </li>
-            <li>Info </li>
-            <li>Age </li>
-            <li>Weight </li>
-        </ol>
-        <button v-on:click="getCats()"> Upload Items</button>
+        <div class="card mt-2  text-center">
+            <div class="card-header">
+                <h3 style="justify-content: center;" class="card-title mb-0">Hello {{name}}! Upload item here.</h3>
+            </div>
+            <div class="card-body overflow-auto">
+                You need to upload the following information
+                <ul class="list-group">
+                    <li class="list-group-item">Name</li>
+                    <li class="list-group-item">Category</li>
+                    <li class="list-group-item">Seller </li>
+                    <li class="list-group-item">Price </li>
+                    <li class="list-group-item">Company </li>
+                    <li class="list-group-item">City </li>
+                    <li class="list-group-item">Photo </li>
+                    <li class="list-group-item">Info </li>
+                    <li class="list-group-item">Age </li>
+                    <li class="list-group-item">Weight </li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-primary" v-on:click="getCats()"> Upload Items</button>
+
+        </div>
     </div>
     <div id="mainform" v-if="display_form && !display_success">
-        <h3>FORM</h3>
-        <form @submit="checkForm">
-            <p v-if="errors.length">
-                <b>Please correct the following error(s):</b>
-            <ul>
-                <li v-for="error in errors">[[error]] </li>
-            </ul>
-            </p>
-            <p>
-                <label for="Name">Name</label>
-                <input id="Name" v-model="Name" type="text" name="Name">
-            </p>
-            <p>
-                <label for="Category">Category</label>
-                <select id="Category" v-model="Category" name="Category">
-                    <option v-for="cat in categories">[[cat]] </option>
-                </select>
-            </p>
-            <p>
-                <label for="Price">Price</label>
-                <input id="Price" v-model="Price" type="number" name="Price" min="0">
-            </p>
-            <p>
-                <label for="Company">Company</label>
-                <input id="Company" v-model="Company" type="text" name="Company">
-            </p>
-            <p>
-                <label for="City">City</label>
-                <input id="City" v-model="City" type="text" name="City">
-            </p>
+        <div class="card mt-2 ">
+            <div class="card-header  text-center">
+                <h3 style="justify-content: center;" class="card-title mb-0">Item information</h3>
+            </div>
+            <div class="card-body overflow-auto">
+                <form @submit="checkForm">
+                    <div class="mb-3  text-center" v-if="errors.length">
+                        <h5>Please correct the following error(s)</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="error in errors">[[error]] </li>
+                        </ul>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Name" class="form-label">Name</label>
+                        <input id="Name" v-model="Name" type="text" name="Name" class="form-control">
+                    </div>
 
-            <p>
-                <label for="Info">Info</label>
-                <input id="Info" v-model="Info" type="text" name="Info">
-            </p>
-            <p>
-                <label for="Age">Age</label>
-                <input id="Age" v-model="Age" type="number" name="Age" min="0">
-            </p>
-            <p>
-                <label for="Weight">Weight</label>
-                <input id="Weight" v-model="Weight" type="number" name="Weight" min="0">
-            </p>
-            <p v-if="!Image">
-                <label for="Image">Image</label>
-                <input type="file" v-on:change="onFileChange" name="Image" accept="image/*" id="Image" class="input-file">
-            </p>
-            <p>
-                <input type="submit" value="Submit">
-            </p>
-        </form>
+                    <div class="mb-3">
+                        <label for="Category" class="form-label">Category</label>
+                        <select id="Category" v-model="Category" class="form-control" name="Category">
+                            <option v-for="cat in categories">[[cat]] </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Price" class="form-label">Price</label>
+                        <input id="Price" v-model="Price" type="number" name="Price" min="0" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Company" class="form-label">Company</label>
+                        <input id="Company" v-model="Company" type="text" name="Company" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="City" class="form-label">City</label>
+                        <input id="City" v-model="City" type="text" name="City" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Info" class="form-label">Info</label>
+                        <input id="Info" v-model="Info" type="text" name="Info" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Age" class="form-label">Age</label>
+                        <input id="Age" v-model="Age" type="number" name="Age" min="0" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Weight" class="form-label">Weight</label>
+                        <input id="Weight" v-model="Weight" type="number" name="Weight" min="0" class="form-control">
+                    </div>
+                    <div class="mb-3">
+
+                        <label for="Image" class="form-label">Image</label>
+                        <input type="file" v-on:change="onFileChange" name="Image" accept="image/*" id="Image"
+                            class="form-control">
+                    </div>
+                    <div class="mb-3"> 
+                        <input type="submit"  class="btn btn-primary mb-3" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
     <div id="succ" v-if="display_success">
         <h3>Item Successfully uploaded</h3>
