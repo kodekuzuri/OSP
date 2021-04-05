@@ -61,4 +61,4 @@ print(Login("seller", "seller", 0)) # incorrect user type
 
 c.delete()
 
-print(Login("605e5c73340b2c7e854e33d8", "Byfs1BO8", 0), "Hey")
+print(Login("605e5c73340b2c7e854e33d8", "Byfs1BO8", 0))
