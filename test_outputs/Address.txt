@@ -1,0 +1,22 @@
+#### Testing empty fields in address (should raise exceptions) ####
+
+houseNumber: String value is too short
+locality: String value is too short
+city: String value is too short
+state: String value is too short
+pincode: String value is too short
+PASSED: Exceptions raised successfully.
+
+#### Testing invalid fields in address (should raise exceptions) ####
+
+houseNumber: String value did not match validation regex
+street: String value did not match validation regex
+locality: String value did not match validation regex
+city: String value did not match validation regex
+state: String value did not match validation regex
+pincode: String value did not match validation regex
+PASSED: Exceptions raised successfully.
+
+#### Testing correct fields in address (should save address successfully) ####
+
+PASSED: Correct address saved successfully.

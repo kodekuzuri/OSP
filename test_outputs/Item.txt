@@ -1,0 +1,6 @@
+testing class Item
+old test items succesfully removed from the databse
+construction with correct parameters was a success
+Upload to database with correct parameters was a success
+Upload to database with incorrect parameters was rejected
+item successfully deleted
