@@ -352,7 +352,7 @@ def up_item():
         try:
             data = request.get_json()
             i1 = Item()
-            # data['seller'] = current_user.name
+            data['seller'] = current_user.name
             data['photo'] = data['photo'].split(',')[1]
             i1.createItem(**data)
             # print(i1.__dict__)
