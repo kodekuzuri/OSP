@@ -1,0 +1,29 @@
+{% extends "seller/base.html" %}
+
+{% block title %}Upload{% endblock %}
+
+{% block styles %}
+<!-- page specific stylesheets here -->
+{% endblock %}
+
+{% block ptitle %}Post Upload{% endblock %}
+
+{% block main %}
+<div class="d-flex justify-content-center">
+
+    {%if message == 'success'%}
+    <div class="mx-auto alert alert-success text-center" role="alert">
+        {{message}}
+    </div>
+    {% else %}
+    <div class="mx-auto alert alert-danger text-center" role="alert">
+        {{message}}
+    </div>
+    {%endif %}
+    {% endblock %}
+
+
+</div>
+{% block scripts %}
+<!-- page specific scripts here -->
+{% endblock %}

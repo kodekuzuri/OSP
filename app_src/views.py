@@ -99,13 +99,13 @@ def signin():
 @app.route("/signup", methods=["POST"])
 def signup():
     data = request.form
-    if data["type"] == "manager": 
+    if data["type"] == "manager":
         status, msg = ManagerSignUp(data)
     elif data["type"] == "buyer":
         status, msg = CustomerSignUp(data, isBuyer=True)
     else:
         status, msg = CustomerSignUp(data, isBuyer=False)
-    
+
     if(status):
         flash(msg, "info")
     else:
@@ -183,9 +183,9 @@ def manager_manage_categories():
             flash("Invalid request", "error")
             return redirect("/manager/manage_categories")
         if(status):
-            flash(msg,"info")
+            flash(msg, "info")
         else:
-            flash(msg,"error")
+            flash(msg, "error")
         return redirect("/manager/manage_categories")
     return render_template("manager/manage_categories.html", categories=Category.objects())
 
@@ -241,7 +241,8 @@ def buyer_buy_requests():
     user = current_user
     if request.method == "POST":
         if request.form["type"] == "change":
-            status, msg = user.ChangeOfferPrice(request.form["id"], request.form["offer"])
+            status, msg = user.ChangeOfferPrice(
+                request.form["id"], request.form["offer"])
         else:
             status, msg = user.Negotiate(request.form["id"])
         if status:
@@ -249,7 +250,7 @@ def buyer_buy_requests():
         else:
             flash(msg, "error")
         return redirect("/buyer/buy_requests")
-        
+
     return render_template("buyer/buy_requests.html", user=user, buyrequests=user.GetBuyRequests())
 
 
@@ -266,7 +267,8 @@ def buyer_past_purchases():
 @login_required
 def buyer_create_buy_request():
     user = current_user
-    status, msg = user.GenerateBuyRequest(request.form["id"], request.form["offer"])
+    status, msg = user.GenerateBuyRequest(
+        request.form["id"], request.form["offer"])
     if status:
         flash(msg, "info")
     else:
@@ -347,17 +349,25 @@ def seller_past_sales():
 @login_required
 def up_item():
     if request.method == 'POST':
-        data=request.get_json()
-        i1=Item()
-        data['seller']=current_user.name
-        data['photo']=data['photo'].split(',')[1]
-        i1.createItem(**data)
-        print(i1.__dict__)
-        i1.uploadToDB()
-        return make_response(
-            jsonify({
-                "message": "ok"
-            }), 200)
+        try:
+            data = request.get_json()
+            i1 = Item()
+            # data['seller'] = current_user.name
+            data['photo'] = data['photo'].split(',')[1]
+            i1.createItem(**data)
+            # print(i1.__dict__)
+            i1.uploadToDB()
+            return make_response(jsonify({"message": "ok"}), 0)
+        except Exception as e:
+            print(str(e))
+            return make_response(jsonify({"message": "not ok", "exception": f"problem with {str(e)}"}), 0)
+
+
+@app.route('/post_upload/<message>')
+@seller_required
+@login_required
+def up_item_show(message):
+    return render_template("/post_upload.html", message=message)
 
 
 # seller views end
@@ -366,41 +376,44 @@ def up_item():
 # dashboard
 
 
-@app.route('/dashboard', methods=["GET", "POST"])
-@login_required
+@ app.route('/dashboard', methods=["GET", "POST"])
+@ login_required
 def dashboard():
     user = current_user
     if request.method == "POST":
         if request.form["type"] == "search_name":
             res = Item.searchItems_Name(name_=request.form["name"])
             if(res.count()):
-                flash("Search results for name \'" + request.form["name"] + "\'", "info")
+                flash("Search results for name \'" +
+                      request.form["name"] + "\'", "info")
             else:
-                flash("No items found matching name \'" + request.form["name"] + "\'", "error")
+                flash("No items found matching name \'" +
+                      request.form["name"] + "\'", "error")
             return render_template("/show_items.html", user=user, title="Search Results", list_items=res, categories=Category.objects())
         else:
             res = Item.searchItems_Category(cat_=request.form["name"])
             if(res.count()):
-                flash("Search results for category \'" + request.form["name"] + "\'", "info")
+                flash("Search results for category \'" +
+                      request.form["name"] + "\'", "info")
             else:
-                flash("No items found in category \'" + request.form["name"] + "\'", "error")
+                flash("No items found in category \'" +
+                      request.form["name"] + "\'", "error")
             return render_template("/show_items.html", user=user, title="Search Results", list_items=res, categories=Category.objects())
     return render_template("/show_items.html", user=user, title="Dashboard", list_items=Item.objects(), categories=Category.objects())
-
 
 
 # other views
 
 
-@app.route('/image_item/<uid>')
-@login_required
+@ app.route('/image_item/<uid>')
+@ login_required
 def ret_item_image(uid):
     item = Item.objects(uniqueid=uid).first()
     return send_file(item.photo, as_attachment=False, attachment_filename='item.jpeg')
 
 
-@app.route('/api/category_list', methods=['POST'])
-@login_required
+@ app.route('/api/category_list', methods=['POST'])
+@ login_required
 def ret_catlist():
     if request.method == 'POST':
         cat_list = [x.name for x in Category.objects()]

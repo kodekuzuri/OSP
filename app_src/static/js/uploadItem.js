@@ -38,9 +38,10 @@ const Upload = {
             this.display_form = true
         },
         checkForm: async function (e) {
-            console.log(this.Image);
+            // console.log(this.Image);
+            console.log("entered")
+            this.errors = [];
             if (this.Name && this.Age && this.Price&& this.Category && this.Company && this.Weight && this.City && this.Info && this.Image) {
-                //post here
                 entry = {
                     name: this.Name,
                     age: this.Age,
@@ -66,8 +67,16 @@ const Upload = {
                 const data = await response.json();
                 console.log(data)
                 this.display_success = true
+                console.log("hi");
+                if(data.message==="ok")
+                {
+                    window.location.href=`${window.origin}/post_upload/success`
+                }
+                else{
+                    window.location.href=`${window.origin}/post_upload/${start_msg} ${data.exception}`
+                }
             }
-            this.errors = [];
+            console.log('81');
             if (!this.Name) {
                 this.errors.push('Name is required.');
             }
@@ -92,7 +101,6 @@ const Upload = {
             if (!this.Image) {
                 this.errors.push('Image is required.');
             }
-            
             e.preventDefault();
         },
         onFileChange(e) {
