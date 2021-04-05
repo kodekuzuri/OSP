@@ -1,0 +1,9 @@
+#### Testing invalid fields in Manager (should raise exceptions) ####
+
+unconverted data remains: 2
+PASSED: Exceptions raised successfully.
+
+#### Testing correct fields in Manager (should save manager successfully) ####
+
+PASSED: Correct manager saved successfully.
+

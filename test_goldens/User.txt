@@ -1,0 +1,13 @@
+#### Testing invalid fields in User (should raise exceptions) ####
+
+email: Invalid email address: random@random (domain validation failed)
+name: String value is too short
+number: String value did not match validation regex
+PASSED: Exceptions raised successfully.
+
+#### Testing correct fields in user (should save user successfully) ####
+
+PASSED: Correct user saved successfully. Assigned unique ID to user.
+
+#### Querying database for users with assigned ID 606b50973dfd80080c98ce7b
+PASSED: Query returned 1 user only.
