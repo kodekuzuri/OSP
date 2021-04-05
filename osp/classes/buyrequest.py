@@ -60,7 +60,7 @@ class BuyRequest(me.Document):
     def ApprovePayment(self):
         try:
             if(self.status==2):
-                self.paymentstatus=1
+                self.paymentstatus=True
                 self.save()
                 scopy= SoldItem()
                 data_dict={

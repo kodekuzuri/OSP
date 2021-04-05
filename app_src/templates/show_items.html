@@ -87,10 +87,27 @@
                 <p class="card-text">Age: {{item.age}} year</p>
                 <p class="card-text">City: {{item.city}}</p>
             </div>
-            <div class="card-footer">
-                <a href="#" class="btn btn-primary p-1 w-100 mb-1">Go somewhere</a>
-                <a href="#" class="btn btn-primary p-1 w-100 mb-1">Go somewhere</a>
-            </div>
+            {% if user.GetType()==1 %}
+
+            <form class="self-align-center card-footer" action="/buyer/create_buy_request" method="post">
+                <div class="input-group form-inline">
+                    <input type="number" name="offer" class="form-control" id="basic-url"
+                        aria-describedby="basic-addon3" placeholder="Offer" required>
+                    <input type="text" name="id" value="{{item.uniqueid}}" hidden>
+                    <button type="submit" class="btn btn-primary btn-sm">Make offer</button>
+                </div>
+            </form>
+
+            {% elif user.GetType()==0 %}
+
+            <form class="self-align-center card-footer" action="/manager/remove_item" method="post">
+                <div class="input-group form-inline">
+                    <input type="text" name="id" value="{{item.uniqueid}}" hidden>
+                    <button type="submit" class="btn btn-primary btn-sm">Remove</button>
+                </div>
+            </form>
+
+            {% endif %}
         </div>
     </div>
     {% endfor %}

@@ -10,6 +10,24 @@
 
 {% block main %}
 <!-- main page content here -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+{% if category=="info" %}
+<div class="mx-auto alert alert-success text-center mt-2 alert-dismissible fade show" role="alert"
+    style="width: fit-content;">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+<div class="mx-auto alert alert-danger text-center mt-2 alert-dismissible fade show" role="alert"
+    style="width: fit-content;">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endfor %}
+{% endwith %}
+
 <div class="row g-2">
     {% for item in list_items %}
     <div class="col-3">
@@ -20,7 +38,6 @@
             </div>
             <div class="card-body overflow-auto">
                 <p class="card-text">Category: {{item.category.name}}</p>
-                <p class="card-text">Seller: {{item.seller.name}}</p>
                 <p class="card-text">Price: {{item.price}}</p>
                 <p class="card-text">Info: {{item.info}}</p>
                 <p class="card-text">Weight: {{item.weight}}</p>
@@ -29,10 +46,12 @@
                 <p class="card-text">Age: {{item.age}} year</p>
                 <p class="card-text">City: {{item.city}}</p>
             </div>
-            <div class="card-footer">
-                <a href="#" class="btn btn-primary p-1 w-100 mb-1">Go somewhere</a>
-                <a href="#" class="btn btn-primary p-1 w-100 mb-1">Go somewhere</a>
-            </div>
+            <form class="self-align-center card-footer" action="/seller/uploads" method="post">
+                <div class="input-group form-inline">
+                    <input type="text" name="id" value="{{item.uniqueid}}" hidden>
+                    <button type="submit" class="btn btn-primary btn-sm">Remove</button>
+                </div>
+            </form>
         </div>
     </div>
     {% endfor %}

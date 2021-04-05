@@ -85,9 +85,9 @@ class Buyer(Customer):
         try:
             item = Item.objects(uniqueid=itemid).first()
             # if item is heavy then it must be in the same city as the buyer
-            if item.isheavy and (str(item.city).casefold() != str(self.city).casefold()):
-                raise Exception("Cannot buy heavy item outside your city.")
             if item:
+                if item.isheavy and (str(item.city).casefold() != str(self.city).casefold()):
+                    raise Exception("Cannot buy heavy item outside your city.")
                 buyreq = BuyRequest()
                 buyreq.CreateBuyRequest(item=item, buyer=self, offer=offer)
                 return (True, "Buy request placed successfully.")

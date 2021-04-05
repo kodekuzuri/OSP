@@ -3,7 +3,7 @@ import os
 from functools import wraps
 from flask import json, render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp, Seller, Buyer
+from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp, Seller, Buyer, SoldItem
 
 
 app.secret_key = os.environ["OSP_APPKEY"]
@@ -190,6 +190,21 @@ def manager_manage_categories():
     return render_template("manager/manage_categories.html", categories=Category.objects())
 
 
+@app.route("/manager/remove_item", methods=["POST"])
+@manager_required
+@login_required
+def manager_remove_item():
+    item = Item.objects(uniqueid=request.form["id"]).first()
+    try:
+        if not item:
+            raise Exception("Item not found in database hence not removed")
+        item.removeFromDB()
+        flash("Item successfully removed", "info")
+    except Exception as e:
+        flash(str(e), "error")
+    return redirect("/dashboard")
+
+
 @app.route("/manager/audit")
 @manager_required
 @login_required
@@ -236,8 +251,20 @@ def buyer_buy_requests():
 @login_required
 def buyer_past_purchases():
     user = current_user
-    return render_template("buyer/past_purchases.html", user=user)
+    return render_template("buyer/past_purchases.html", user=user, items=SoldItem.objects(buyer=user.uniqueid))
 
+
+@app.route("/buyer/create_buy_request", methods=["POST"])
+@buyer_required
+@login_required
+def buyer_create_buy_request():
+    user = current_user
+    status, msg = user.GenerateBuyRequest(request.form["id"], request.form["offer"])
+    if status:
+        flash(msg, "info")
+    else:
+        flash(msg, "error")
+    return redirect("/dashboard")
 
 # buyer views end
 
@@ -282,11 +309,21 @@ def seller_buy_requests():
     return render_template("seller/buy_requests.html", user=user, buyrequests=user.GetBuyRequests())
 
 
-@app.route('/seller/uploads')
+@app.route('/seller/uploads', methods=["GET", "POST"])
 @seller_required
 @login_required
 def seller_uploads():
     user = current_user
+    if request.method == "POST":
+        item = Item.objects(uniqueid=request.form["id"]).first()
+        try:
+            if not item:
+                raise Exception("Item not found in database hence not removed")
+            item.removeFromDB()
+            flash("Item successfully removed", "info")
+        except Exception as e:
+            flash(str(e), "error")
+        return redirect("/seller/uploads")
     return render_template("seller/uploads.html", user=user, list_items=user.GetItems())
 
 
@@ -295,7 +332,7 @@ def seller_uploads():
 @login_required
 def seller_past_sales():
     user = current_user
-    return render_template("seller/past_sales.html", user=user)
+    return render_template("seller/past_sales.html", user=user, items=SoldItem.objects(seller=user.uniqueid))
 
 
 @app.route('/api/upload_item', methods=['POST'])
@@ -350,7 +387,7 @@ def dashboard():
 
 @app.route('/image_item/<uid>')
 @login_required
-def index1(uid):
+def ret_item_image(uid):
     item = Item.objects(uniqueid=uid).first()
     return send_file(item.photo, as_attachment=False, attachment_filename='item.jpeg')
 
@@ -367,6 +404,12 @@ def ret_catlist():
             }), 200)
 
 
+# @app.route('/image_solditem/<uid>')
+# def ret_solditem_image(uid):
+#     item = SoldItem.objects(uniqueid=uid).first()
+#     return send_file(item.photo, as_attachment=False, attachment_filename='item.jpeg')
+
+
 # @app.route('/user/search_items')
 # def search_base():
 #     return render_template('/search_base.html')
@@ -379,4 +422,3 @@ def ret_catlist():
 # def search_item_cat(cat):
 #     x=Item.searchItems_Category(cat_=cat)
 #     return render_template('/show_items.html',list_items=x, user=current_user)
-    

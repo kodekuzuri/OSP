@@ -10,6 +10,28 @@
 
 {% block main %}
 <!-- main page content here -->
+<table class="table mt-2">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Buyer ID</th>
+            <th scope="col">Selling Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.category}}</td>
+            <td>{{item.buyer}}</td>
+            <td>{{item.price}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
 
 {% block scripts %}
