@@ -298,43 +298,9 @@ def seller_past_sales():
     return render_template("seller/past_sales.html", user=user)
 
 
-# seller views end
-
-
-# dashboard
-
-
-@app.route('/dashboard', methods=["GET", "POST"])
-@login_required
-def dashboard():
-    user = current_user
-    if request.method == "POST":
-        print(request.form["type"], request.form["name"])
-        return redirect("/dashboard")
-    return render_template("/show_items.html", user=user, title="Dashboard", list_items=Item.objects(), categories=Category.objects())
-
-
-
-# other views
-
-
-@app.route('/image_item/<uid>')
-def index1(uid):
-    item = Item.objects(uniqueid=uid).first()
-    return send_file(item.photo, as_attachment=False, attachment_filename='item.jpeg')
-
-
-@app.route('/api/category_list', methods=['POST'])
-def ret_catlist():
-    if request.method == 'POST':
-        cat_list = [x.name for x in Category.objects()]
-        return make_response(
-            jsonify({
-                "message": "ok",
-                "list_cat": cat_list
-            }), 200)
-
 @app.route('/api/upload_item', methods=['POST'])
+@seller_required
+@login_required
 def up_item():
     if request.method == 'POST':
         data=request.get_json()
@@ -349,16 +315,68 @@ def up_item():
                 "message": "ok"
             }), 200)
 
-@app.route('/user/search_items')
-def search_base():
-    return render_template('/search_base.html')
 
-@app.route('/search_name/<name>')
-def search_item_name(name):
-    return render_template('/show_items.html',list_items=Item.searchItems_Name(name_=name))
+# seller views end
 
-@app.route('/search_cat/<cat>')
-def search_item_cat(cat):
-    x=Item.searchItems_Category(cat_=cat)
-    return render_template('/show_items.html',list_items=x, user=current_user)
+
+# dashboard
+
+
+@app.route('/dashboard', methods=["GET", "POST"])
+@login_required
+def dashboard():
+    user = current_user
+    if request.method == "POST":
+        if request.form["type"] == "search_name":
+            res = Item.searchItems_Name(name_=request.form["name"])
+            if(res.count()):
+                flash("Search results for name \'" + request.form["name"] + "\'", "info")
+            else:
+                flash("No items found matching name \'" + request.form["name"] + "\'", "error")
+            return render_template("/show_items.html", user=user, title="Search Results", list_items=res, categories=Category.objects())
+        else:
+            res = Item.searchItems_Category(cat_=request.form["name"])
+            if(res.count()):
+                flash("Search results for category \'" + request.form["name"] + "\'", "info")
+            else:
+                flash("No items found in category \'" + request.form["name"] + "\'", "error")
+            return render_template("/show_items.html", user=user, title="Search Results", list_items=res, categories=Category.objects())
+    return render_template("/show_items.html", user=user, title="Dashboard", list_items=Item.objects(), categories=Category.objects())
+
+
+
+# other views
+
+
+@app.route('/image_item/<uid>')
+@login_required
+def index1(uid):
+    item = Item.objects(uniqueid=uid).first()
+    return send_file(item.photo, as_attachment=False, attachment_filename='item.jpeg')
+
+
+@app.route('/api/category_list', methods=['POST'])
+@login_required
+def ret_catlist():
+    if request.method == 'POST':
+        cat_list = [x.name for x in Category.objects()]
+        return make_response(
+            jsonify({
+                "message": "ok",
+                "list_cat": cat_list
+            }), 200)
+
+
+# @app.route('/user/search_items')
+# def search_base():
+#     return render_template('/search_base.html')
+
+# @app.route('/search_name/<name>')
+# def search_item_name(name):
+#     return render_template('/show_items.html',list_items=Item.searchItems_Name(name_=name))
+
+# @app.route('/search_cat/<cat>')
+# def search_item_cat(cat):
+#     x=Item.searchItems_Category(cat_=cat)
+#     return render_template('/show_items.html',list_items=x, user=current_user)
     

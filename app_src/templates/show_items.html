@@ -22,24 +22,6 @@
 {% block ptitle %}{{title}}{% endblock %}
 
 {% block main %}
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% for category, message in messages %}
-{% if category=="info" %}
-<div class="mx-auto alert alert-success text-center mt-4 alert-dismissible fade show" role="alert"
-    style="width: fit-content;">
-    {{message}}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% else %}
-<div class="mx-auto alert alert-danger text-center mt-4 alert-dismissible fade show" role="alert"
-    style="width: fit-content;">
-    {{message}}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endif %}
-{% endfor %}
-{% endwith %}
-
 <div class="d-flex justify-content-center">
     <form class="mt-4 self-align-center" action="/dashboard" method="post">
         <div class="input-group mb-3 form-inline">
@@ -66,6 +48,24 @@
         </div>
     </form>
 </div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+{% if category=="info" %}
+<div class="mx-auto alert alert-success text-center mt-2 alert-dismissible fade show" role="alert"
+    style="width: fit-content;">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+<div class="mx-auto alert alert-danger text-center mt-2 alert-dismissible fade show" role="alert"
+    style="width: fit-content;">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endfor %}
+{% endwith %}
 
 <div class="row g-2">
     {% for item in list_items %}
