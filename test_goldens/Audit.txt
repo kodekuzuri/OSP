@@ -1,0 +1,14 @@
+Testing audit.
+creating dummy input for testing
+dummy creation successfull
+#### checking category deletions effect on items
+None
+None
+#### print existing buyreqs
+test_buyrequest_item_heavy test_buyer1
+test_buyrequest_item_heavy test_buyer2
+test_buyrequest_item test_buyer1
+#### checking buy requests after item deletion
+test_buyrequest_item test_buyer1
+deleting dummies
+success
