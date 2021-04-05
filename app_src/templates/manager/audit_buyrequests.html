@@ -1,0 +1,56 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Audit Buy Requests{% endblock %}
+
+{% block styles %}
+<!-- page specific stylesheets here -->
+{% endblock %}
+
+{% block ptitle %}Audit Buy Requests{% endblock %}
+
+{% block main %}
+<!-- main page content here -->
+<table class="table mt-2">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item name</th>
+            <th scope="col">Seller</th>
+            <th scope="col">Buyer</th>
+            <th scope="col">Offer price</th>
+            <th scope="col">Request Status</th>
+            <th scope="col">Payment Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for req in buyreqs %}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{req.item.name}}</td>
+            <td>{{req.seller.name}}</td>
+            <td>{{req.buyer.name}}</td>
+            <td>{{req.offer}}</td>
+            {% if req.status==0 %}
+            <td>Rejected</td>
+            {% elif req.status==1 %}
+            <td>Pending</td>
+            {% else %}
+            <td>Approved</td>
+            {% endif %}
+            {% if req.paymentstatus==0 %}
+            <td>Pending</td>
+            {% else %}
+            <td>Approved</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block scripts %}
+<!-- page specific scripts here -->
+<script>
+    $("#nav-buyrequests").addClass("active");
+</script>
+{% endblock %}

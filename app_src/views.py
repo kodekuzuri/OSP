@@ -3,7 +3,7 @@ import os
 from functools import wraps
 from flask import json, render_template, jsonify, make_response, send_file, request, redirect, flash, current_app
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp, Seller, Buyer, SoldItem
+from osp import Login, User, Item, Category, ManagerSignUp, CustomerSignUp, Seller, Buyer, SoldItem, BuyRequest
 
 
 app.secret_key = os.environ["OSP_APPKEY"]
@@ -205,11 +205,18 @@ def manager_remove_item():
     return redirect("/dashboard")
 
 
-@app.route("/manager/audit")
+@app.route("/manager/audit_buyrequests")
 @manager_required
 @login_required
-def manager_audit():
-    return render_template("manager/audit.html")
+def manager_audit_buyrequests():
+    return render_template("manager/audit_buyrequests.html", buyreqs=BuyRequest.objects())
+
+
+@app.route("/manager/audit_sales")
+@manager_required
+@login_required
+def manager_audit_sales():
+    return render_template("manager/audit_sales.html", items=SoldItem.objects())
 
 
 # manager views end
