@@ -62,7 +62,7 @@ class Manager(User):
 # CUTOMER CLASS
 
 class Customer(User):
-    city = me.StringField(required=True, min_length=1)
+    city = me.StringField(required=True, min_length=1, regex="^[a-zA-Z ]*$")
 
     meta = {'allow_inheritance': True}
 
