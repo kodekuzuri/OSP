@@ -127,12 +127,18 @@ def CustomerSignUp(data, isBuyer=True):
         user.uniqueid = str(user.id)
         user.save()
         
-        session = smtplib.SMTP('smtp.gmail.com', 587)
-        session.starttls()
-        session.login(senderAddress, senderPass)
-        text = GenerateMail(user.name, user.uniqueid, user.password, user.email)
-        session.sendmail(senderAddress, user.email, text)
-        session.quit()
+        text = f'''Hello {user.name},
+
+        Here are your login credentials for the portal:
+            User ID: {user.uniqueid}
+            Password: {user.password}
+
+        Thank you.
+        Regards,
+        Team OSP
+        '''
+        subject = 'Welcome to Online Sales Portal'
+        SendMail(text, subject, user.email)
         return (True, "Signup successful. Check your inbox for login credentials.")
 
     except Exception as e:
