@@ -1,7 +1,7 @@
 import sys
 sys.path.append(".")
 
-from osp import Manager, Address
+from osp import Manager, Address, Buyer, Seller
 import datetime
 
 # dummy address for testing
@@ -28,7 +28,53 @@ except Exception as e:
     print("FAILED: Exceptions raised successfully.\n")
 
 
+# dummy buyer for testing
+test_buyer=Buyer(city="Noida test",password="abcd",email="testemail@email.com",name="test_buyer",number="9717911976")
+test_buyer.save()
+test_buyer.uniqueid=str(test_buyer.id)
+test_buyer.save()
 
+# dummy seller for testing
+test_seller=Seller(city="Noida test",password="abcd",email="testemail@email.com",name="test_seller",number="9717911976")
+test_seller.save()
+test_seller.uniqueid=str(test_seller.id)
+test_seller.save()
+
+print("\n#### Testing manage buyer. (Existing Buyer)\n")
+status, msg = test_manager.ManageBuyer(test_buyer.uniqueid)
+if status:
+    print("Passed.")
+else:
+    print("Failed.")
+print(msg)
+
+print("\n#### Testing manage seller. (Exisitng Seller)\n")
+status, msg = test_manager.ManageSeller(test_seller.uniqueid)
+if status:
+    print("Passed.")
+else:
+    print("Failed.")
+print(msg)
+
+
+print("\n#### Testing manage buyer. (Non-Existing Buyer)\n")
+status, msg = test_manager.ManageBuyer("nonexisting")
+if not status:
+    print("Passed.")
+else:
+    print("Failed.")
+print(msg)
+
+print("\n#### Testing manage seller. (Non-Exisitng Seller)\n")
+status, msg = test_manager.ManageSeller("nonexisting")
+if not status:
+    print("Passed.")
+else:
+    print("Failed.")
+print(msg)
+
+
+print("\nDeletion of Items and BuyRequests on removal of buyer and seller checked in testBuyRequests")
 
 # cleanup after testing
 test_manager.delete()
