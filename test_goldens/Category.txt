@@ -1,0 +1,20 @@
+['electronics', 'books', 'TestCat1', 'clothes']
+adding existing category, TestCat1
+False Category already exists.
+
+adding new category, TestCat2
+True Category successfully added.
+
+['electronics', 'books', 'TestCat1', 'clothes', 'TestCat2']
+
+construction with wrong params
+False ValidationError (Category:None) (String value is too short: ['name'])
+
+testing removal (existing)
+True Category successfully removed.
+
+['electronics', 'books', 'TestCat1', 'clothes']
+
+testing removal (non-existing)
+False Category with given id doesn't exist hence not removed.
+

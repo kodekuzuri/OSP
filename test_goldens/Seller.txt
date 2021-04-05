@@ -1,0 +1,8 @@
+testing class Seller
+testing constructor with correct parameters
+Passed
+testing constructor with incorrect parameters
+passed
+testing deletion of seller
+Passed
+Other seller functions tested with buyrequests
