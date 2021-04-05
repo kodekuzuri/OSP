@@ -69,6 +69,12 @@ class Item(me.Document):
         except:
             raise
 
+    def removeFromDB(self):
+        try:
+            self.delete()
+        except:
+            raise
+
     @staticmethod
     def searchItems_Name(name_):
         return Item.objects(name=name_)

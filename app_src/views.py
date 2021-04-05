@@ -133,8 +133,9 @@ def logout():
 @manager_required
 @login_required
 def manager_home():
-    user = current_user
-    return render_template("manager/home.html", user=user)
+    # user = current_user
+    # return render_template("manager/home.html", user=user)
+    return redirect("/dashboard")
 
 
 @app.route("/manager/manage_buyers", methods=["GET", "POST"])
@@ -206,8 +207,9 @@ def manager_audit():
 @buyer_required
 @login_required
 def buyer_home():
-    user = current_user
-    return render_template("buyer/home.html", user=user)
+    # user = current_user
+    # return render_template("buyer/home.html", user=user)
+    return redirect("/dashboard")
 
 
 @app.route("/buyer/buy_requests", methods=["GET", "POST"])
@@ -247,8 +249,9 @@ def buyer_past_purchases():
 @seller_required
 @login_required
 def seller_home():
-    user = current_user
-    return render_template("seller/home.html", user=user)
+    # user = current_user
+    # return render_template("seller/home.html", user=user)
+    return redirect("/dashboard")
 
 
 @app.route('/seller/upload_item')
@@ -296,6 +299,20 @@ def seller_past_sales():
 
 
 # seller views end
+
+
+# dashboard
+
+
+@app.route('/dashboard', methods=["GET", "POST"])
+@login_required
+def dashboard():
+    user = current_user
+    if request.method == "POST":
+        print(request.form["type"], request.form["name"])
+        return redirect("/dashboard")
+    return render_template("/show_items.html", user=user, title="Dashboard", list_items=Item.objects(), categories=Category.objects())
+
 
 
 # other views
