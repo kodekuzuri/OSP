@@ -20,7 +20,7 @@ try:
     test_user.uniqueid = str(test_user.id)
     test_user.save()
     print("PASSED: Correct user saved successfully. Assigned unique ID to user.\n")
-    print(f"#### Querying database for users with assigned ID {test_user.uniqueid}")
+    print(f"#### Querying database for users with assigned ID")
     count = User.objects(uniqueid=test_user.uniqueid).count()
     test_user.delete()
     if count == 1:

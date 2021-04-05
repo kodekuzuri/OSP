@@ -1,0 +1,26 @@
+Testing BuyRequest and associated functions from class Buyer and Seller
+creating dummy input for testing
+dummy creation successfull
+generate new buy request (heavy)
+False Cannot buy heavy item outside your city.
+generate new buy request
+True Buy request placed successfully.
+negotiation
+True Negotiation request placed successfully.
+change offer price
+True Offer price changed successfully.
+reject request
+(True, 'Rejected request.')
+change offer price on rejected request
+False Can't change offer price of buy request which has already been approved or rejected.
+approve rejected request
+(False, "Request already rejected, can't approve it.")
+delete this buy request for further testsing
+success
+generate new buy request for further testing
+True Buy request placed successfully.
+approve request
+(True, 'Approved request. Payment details sent to the buyer.')
+(True, 'Payment approved.')
+deleting dummies
+success
