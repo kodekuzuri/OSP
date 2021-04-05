@@ -79,3 +79,11 @@ then
 else
     echo $'\n Doesnt Match golden, unit tests FAILED :( !! \n'
 fi
+python tests/classes/testAudit.py >> test_outputs/Audit.txt  
+echo "Testing Audit"
+if  cmp -s  test_outputs/Audit.txt test_goldens/Audit.txt  
+then 
+    echo $'\n Matches golden, unit tests passed !! \n'
+else
+    echo $'\n Doesnt Match golden, unit tests FAILED :( !! \n'
+fi
