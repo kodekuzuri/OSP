@@ -1,14 +1,3 @@
-python tests/interfaces/testLogin.py >> test_goldens/Login.txt   
-python tests/classes/testBuyRequests.py >> test_goldens/BuyRequests.txt  
-python tests/classes/testSeller.py >> test_goldens/Seller.txt
-python tests/classes/testBuyer.py >> test_goldens/Buyer.txt
-python tests/classes/testUser.py >> test_goldens/User.txt  
-python tests/classes/testManager.py >> test_goldens/Manager.txt  
-python tests/classes/testitem.py >> test_goldens/Item.txt  
-python tests/classes/testCustomer.py >> test_goldens/Customer.txt  
-python tests/classes/testCategory.py >> test_goldens/Category.txt  
-python tests/classes/testAddress.py >> test_goldens/Address.txt  
-
 python tests/interfaces/testLogin.py >> test_outputs/Login.txt   
 echo "Testing Login"
 if  cmp -s  test_outputs/Login.txt test_goldens/Login.txt  
