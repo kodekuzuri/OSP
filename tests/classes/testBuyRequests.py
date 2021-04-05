@@ -4,7 +4,7 @@ sys.path.append(".")
 from osp import Buyer, Item, Seller
 
 # buyer = Buyer.objects().first()
-# item = Item.objects(name="The World Is Flat").first()
+# test_item = Item.objects(name="The World Is Flat").first()
 
 # generate new buy request (heavy)
 
