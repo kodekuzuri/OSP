@@ -1,7 +1,7 @@
 # Software Engineering Lab Project
 ## Online Sales Portal
 ### Made By Animesh Jha, Nisarg Upadhaya and Pranav Rajput
-Made with [![forthebadge](https://forthebadge.com/images/badges/made-with-vue.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-vue.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
 
